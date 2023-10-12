@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda EdVisto 3.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+
+<body>
+    <main>
+        <div class="search_section" id="search_sec">
+            <img src="./assets/img/avatar_busqueda.svg" alt="perrito profesor" class="avatar" id="search_avtr">
+
+            <h4 class="search_title" id="search_title">¡Hola!¿Qué buscaremos hoy?</h4>
+
+            <div class="buscador">
+                <input class="busqueda" type="search" name="search" aria-label="Search" x-webkit-speech id="tema">
+                <img src="./assets/img/icons/Voice.svg" alt="icono de microfono" class="mic_btn">
+                <button type="button" class="search_btn" id="buttonAdd">
+                    <img src="./assets/img/icons/lupa.svg" alt="lupa">
+                </button>
+            </div>
+        </div>
+        <div id="search_result_section"> 
+            <div id="definition_card">
+                <p id="definicion"></p>
+            </div>
+            <div id="suggestion_card">
+                <p id="ideas"></p>
+            </div>
+            <div id="result_section">
+                <div class="tab_box"></div>
+                <div class="tab_content"></div>
+            </div>
+
+        </div>
+    </main>
+    <script src="./js/data.js"></script>
+    <script src="./js/busqueda.js"></script>
+</body>
+
+</html>

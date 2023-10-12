@@ -1,0 +1,230 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    gap: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    display: flex;
+    margin-top: 1.875rem;
+    justify-content: center;
+}
+
+main {
+    margin-top: 6.25rem;
+}
+
+.search_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    margin: 0px auto;
+    padding: 0px 100px 0px 50px;
+    width: 64.9375rem;
+    height: 13.375rem;
+    background-color: #0B0033;
+    border-radius: 82px;
+}
+
+.search_title {
+    color: #fff;
+    text-align: center;
+    font-family: 'Urbanist', sans-serif;
+    font-style: normal;
+    font-size: 2rem;
+    line-height: normal;
+    margin-top: 20px;
+}
+
+.buscador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.busqueda {
+    width: 705px;
+    height: 40px;
+    border-radius: 30px;
+    margin: 15px 0px;
+    padding: 20px;
+}
+
+.search_btn {
+    background: #6100FF;
+    width: max-content;
+    border-radius: 15px;
+    gap: 10px;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.mic_btn {
+    color: #fff;
+    cursor: pointer;
+}
+
+.avatar {
+    height: 26.9375rem;
+    position: absolute;
+    left: 71%;
+  
+}
+
+#search_result_section {
+    max-width: 55.375rem;
+}
+
+#definition_card{
+    width: 58.125rem;
+    height: 24.25rem;
+    background-color: #0B0033;
+    background-image: url(../assets/img/avatar_busqueda.svg);
+    background-repeat: no-repeat;
+    background-position: left;
+    border-radius: 30px;
+    box-shadow: 6px 6px 6px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#definition_card p{
+    color: #fff;
+    text-align: right;
+    text-wrap: balance;
+    margin: 100px 50px;
+    width: 600px;
+    float: right;
+}
+
+#card_title{
+    text-align: center;
+}
+#suggestion_card{
+    width: 58.125rem;
+    height: 20.25rem;
+    background-color: #0B0033;
+    border-radius: 30px;
+    margin-top: 30px;
+    padding: 5px;
+    text-align: center;
+}
+
+.suggestion_title{
+    color: #fff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 20px;
+    margin: 1.875rem;
+}
+
+#suggestion_card p{
+
+    background-color: rgba(28, 187, 196, 0.70);
+    margin: 30px 300px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+#result_section {
+    width: 100%;
+    display: flex;
+}
+
+.tab_section {
+    display: flex;
+}
+
+.tab_content{
+    display: flex;
+}
+
+.videos,
+.artículos {
+    background-color: rgba(28, 187, 196, 0.70);
+    display: flex;
+    flex-direction: column;
+    width: 55.4375rem;
+}
+
+.video_icon {
+    height: 3.875rem;
+}
+
+.art_icon {
+    height: 3.875rem;
+}
+
+.video_card {
+    height: 15.1875rem;
+    width: 52.875rem;
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(255, 255, 255, 0.80);
+    border-radius: 1.25rem;
+    gap: 1.25rem;
+    margin: 0px 20px;
+}
+
+.card_img {
+    width: 22.5rem;
+    height: 12.6875rem;
+    border-radius: .6875rem;
+    border: 1px solid #000;
+    margin: 20px;
+}
+
+.active_tab_btn {
+    background-color: rgba(255, 255, 255, 0.80);
+    border-radius: 1.75rem;
+    box-shadow: 4px 4px 3px 0px rgba(40, 0, 105, 0.29);
+    width: 17.5rem;
+    height: 7.5rem;
+    margin: 30px auto;
+    cursor: pointer;
+}
+
+.tab_btn {
+    background-color: rgba(28, 187, 196, 0.70);
+    border: none;
+    width: 17.5rem;
+    height: 7.5rem;
+    cursor: pointer;
+    margin: 30px auto;
+
+}
+
+
+
+
+
+/* Media Queries */
+@media screen and (max-width :992px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search_section,
+    .busqueda {
+        width: auto;
+    }
+
+    .checkbox_container {
+        display: flow;
+        width: auto;
+    }
+}
