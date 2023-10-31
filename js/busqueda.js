@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
   const PROJECT_ID = "intrepid-period-401518";
   const MODEL_ID = "text-bison";
-  const ACCESS_TOKEN = "ya29.a0AfB_byAOMWUgr8EvNM9GENvq-rEg5FeuaiTc0OXMjKY5zAGPKa2r892FwvL67LGtns_YB4ASX2JeF000XZwiuDnwpljWSz5CIdYhCc7X-ZSopg73vAO1CcReLYmdALq_I2qUnypO_9KrkGCLabxwzWy652cZTi4QAuHDl-BxhEwJ7jd3YeEJ14Zu-TWZRBt7TAXqmoBq9ARskuxQtJB9e_Z_Ug1dG1nv-eq2X50-UqYK1SGisEaGQSIl6ZvHKDfki1K8JtnXMzW54V_rooCnqkDrCts6sPcycyCwNSgWM8K0jfWKCrkwNt9mxfA4il1jyx8oYFfaEML8dOfhA3fa2OMgZ0cCAAQZd_TsD2l0EYjXuyJpz_js8ACN5ZI0_zXOTkjIKbaaSV12cN2tmzPBhpXjQDEjIk0aCgYKAYASARISFQGOcNnCCYk4Gt0ebjBgSpHFjNzwxQ0422";
+  const ACCESS_TOKEN = "";
 
   const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
@@ -13,15 +13,17 @@ document.addEventListener("DOMContentLoaded", function () {
     "Content-Type": "application/json",
   };
 
+
   const definitionCard = document.getElementById("definition_card");
   const suggestionCard = document.getElementById("suggestion_card");
   const searchAvatar = document.getElementById("search_avtr");
   const searchGreeting = document.getElementById("search_title");
   const searchContainer = document.getElementById("search_sec");
-
+  const saveContainer = document.getElementById('save_container');
 
   definitionCard.style.display = "none";
   suggestionCard.style.display = "none";
+  saveContainer.style.display = "none";
 
   document.getElementById("buttonAdd").addEventListener("click", function () {
     const topic = document.getElementById("tema").value;
@@ -79,18 +81,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
           parte2.forEach((respuestaSalto, index) => {
             if (index !== 0) {
-              const parrafo = document.createElement("p");
-              parrafo.textContent = respuestaSalto;
-              suggestionCard.appendChild(parrafo);
+              const suggestionContainer = document.createElement("div");
+              suggestionContainer.classList.add("suggestion-container");
+
+              const suggestion = document.createElement("span");
+              suggestion.className = "text_to_copy";
+              suggestion.setAttribute("data-index", index)
+              suggestion.textContent = respuestaSalto;
+
+              const copyButton = document.createElement("button");
+              copyButton.classList.add("copy-btn");
+              copyButton.setAttribute("data-index", index);
+
+              const icon = document.createElement("img");
+              icon.classList.add("copy_icon");
+              icon.src = "../assets/img/icons/copy.svg";
+
+              copyButton.appendChild(icon);
+
+              copyButton.addEventListener("click", () => {
+
+                const dataIndex = copyButton.getAttribute("data-index");
+                const textToCopy = document.querySelector(`.text_to_copy[data-index="${dataIndex}"]`).textContent;
+
+                const tempTextArea = document.createElement("textarea");
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextArea);
+
+                copyButton.title = "El texto ha sido copiado al portapapeles";
+
+                console.log("Texto copiado al portapapeles");
+                console.log("Copy button clicked");
+              });
+
+              suggestionContainer.appendChild(suggestion);
+              suggestionContainer.appendChild(copyButton);
+              suggestionCard.appendChild(suggestionContainer);
             }
+
           });
 
-          document.getElementById("definicion").innerHTML = `<h3 id="card_title">${topic.toUpperCase()}</h3>` + parte1;
+          document.getElementById("definicion").innerHTML = `<h3 id="card_title">${topic.toUpperCase()}</h3>` + parte1 + `<button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button>`;
 
+          const downloadBtn = document.getElementById('download_btn');
 
-        } else {
-          document.getElementById("definicion").innerHTML = respuesta;
-          document.getElementById("ideas").innerHTML = "";
+          downloadBtn.addEventListener('click', () => {
+
+            console.log('hiciste click en descargar');
+          });
+
+        } else if (topic == '') {
+          document.getElementById("definicion").innerHTML = '';
+          document.getElementById("ideas").innerHTML = '';
         }
       })
       .catch((error) => {
@@ -99,8 +144,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//BÚSQUEDA GOOGLE ACADEMICS
+//BÚSQUEDA VIDEOS Y ARTICULOS
+
 const searchButton = document.querySelector(".search_btn");
+
 searchButton.addEventListener('click', () => {
   const inputBuscador = document.querySelector(".busqueda").value.toLowerCase();
   const searchTerm = inputBuscador.replace(/ /g, "+");
@@ -109,10 +156,56 @@ searchButton.addEventListener('click', () => {
     alert('Debes escribir una palabra en la barra de búsqueda');
     return;
   }
-  const googleAcamedicsApi = "http://localhost:3000/search/scholar?q=" + searchTerm;
-  // const khanAcademyApi = " "";
 
-const googleAcPromise =  fetch(googleAcamedicsApi)
+  //TABS
+    const tabButtons = document.getElementById("tab_btn");
+    if (searchTerm !== ""){
+    
+      tabButtons.innerHTML = `<div id="api1_btn">
+    <button class="tabButton active" id="search_videos" aria-label="Resultados de videos" data-target="#videos">
+    <img class="active-image" src="../assets/img/icons/ph_video.svg"></button></div>
+    <div id="api2_btn"><button class="tabButton" id="search_articles" aria-label="Resultado de articulos" data-target="#articles">
+    <img class="active-image" src="../assets/img/icons/tab_articulos.svg"></button></div>`;
+  
+    const targets = document.querySelectorAll('[data-target]');
+    const content = document.querySelectorAll('[data-content]');
+    targets.forEach(target => {
+      target.addEventListener('click', function () {
+        content.forEach(c => {
+          c.classList.remove("activo")
+        })
+  
+        const t = document.querySelector(target.dataset.target)
+        t.classList.add("activo")
+      })
+    })
+  } else if (searchTerm === ""){
+    const tabVideos = document.getElementById('videos');
+    const tabArticulos = document.getElementById('articles');
+    tabButtons.innerHTML = "";
+    tabVideos.innerHTML= "";
+    tabArticulos.innerHTML=="";
+  }
+
+  const buttons_tab = document.querySelectorAll('.tabButton');
+  buttons_tab.forEach(b => {
+    b.addEventListener('click', () => {
+      buttons_tab.forEach(btn => {
+        btn.classList.remove('active');
+      });
+      b.classList.add('active');
+    });
+  });
+
+  
+
+
+  //BUSQUEDA YOUTUBE
+  const youtubeApi = "http://localhost:5000/youtube/buscar/" + searchTerm;
+  fetch(youtubeApi, {
+    method: 'GET',
+    credentials: 'include',
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.status}`);
@@ -120,26 +213,179 @@ const googleAcPromise =  fetch(googleAcamedicsApi)
       return response.json();
     })
     .then(responseData => {
-      console.log(responseData);
-      displayTabsByCat(responseData);
+
+      let tabBox1 = document.querySelector(".tab_api1");
+
+      tabBox1.innerHTML = '';
+      const videoContainer = document.createElement('div');
+      videoContainer.classList.add('video_container');
+
+      responseData.forEach(item => {
+        const videoTitle = item.titulo;
+        const videoThumbnail = item.miniatura;
+        const videoId = item.enlace;
+        const resultElement = document.createElement('div');
+        resultElement.classList.add('video_card');
+        resultElement.innerHTML = `
+        <div clas="video_content">
+        <img class="video_img" src="${videoThumbnail}" alt="${videoTitle}">
+        <h3>${videoTitle}</h3>
+        <div/>
+        <a href=${videoId}" target="_blank">Ver en YouTube</a>
+        
+      `;
+        const saveButton = document.createElement("button");
+        saveButton.classList.add("save-button");
+
+        const icon = document.createElement("img");
+        icon.classList.add("save_icon");
+        icon.src = "../assets/img/icons/icono_guardar.svg";
+
+        saveButton.appendChild(icon);
+
+        saveButton.addEventListener("click", () => {
+          const container = document.getElementById('save_container');
+          container.style.display = "block";
+          let div = `<div class="save_div">
+                       <ul>
+                          <li><button type="button" id="c1"> Carpeta 1 </button> </li>
+                          <li><button type="button" id="c2"> Carpeta 2 </button> </li>
+                          <li><button type="button" id="new_folder"> Nuevo </button> </li>
+                        </ul>
+                     </div>`
+
+          container.innerHTML = div;
+          console.log("Save button clicked");
+        });
+        resultElement.appendChild(saveButton);
+        videoContainer.appendChild(resultElement);
+        tabBox1.appendChild(videoContainer);
+      });
+      const api1Btn = document.getElementById("api1_btn");
+      api1Btn.appendChild(tabBox1);
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+    });
+
+  //GOOGLE ACADEMICS
+  function rearrangeTitle(title) {
+    const regex = /\[(.*?)\]/g;
+    const matches = [];
+    let match;
+
+    while ((match = regex.exec(title)) !== null) {
+      matches.push(match[0]);
+    }
+
+    const cleanedTitle = title.replace(/\[(.*?)\]/g, '').trim();
+    const modifiedTitle = cleanedTitle + ' ' + matches.join(' ');
+
+    return modifiedTitle;
+  }
+
+
+  const googleAcademicsApi = "http://localhost:3000/search/scholar?q=" + searchTerm;
+  fetch(googleAcademicsApi, {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status}`);
+      }
+      return response.json();
+    })
+
+    .then(responseData => {
+
+      const tabBox2 = document.querySelector(".tab_api2");
+
+      tabBox2.innerHTML = '';
+
+      responseData.results.forEach(result => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        const cardContent = document.createElement("div");
+        cardContent.classList.add("card-content");
+
+        const modifiedTitle = rearrangeTitle(result.title);
+
+        const title = document.createElement("h5");
+        title.classList.add("card-title");
+        title.textContent = modifiedTitle;
+
+        const link = document.createElement("a");
+        link.href = result.link;
+        link.textContent = `${result.link}`
+
+        const snippet = document.createElement("p");
+        snippet.classList.add("card-text");
+        snippet.textContent = result.snippet;
+
+        const saveButton = document.createElement("button");
+        saveButton.classList.add("save-button");
+
+        const icon = document.createElement("img");
+        icon.classList.add("save_icon");
+        icon.src = "../assets/img/icons/icono_guardar.svg";
+
+        saveButton.appendChild(icon);
+
+        saveButton.addEventListener("click", () => {
+          const container = document.getElementById('save_container');
+          container.style.display = "block";
+          let div = `<div class="save_div">
+                       <ul>
+                          <li><button type="button" id="c1"> Carpeta 1 </button> </li>
+                          <li><button type="button" id="c2"> Carpeta 2 </button> </li>
+                          <li><button type="button" id="new_folder"> Nuevo </button> </li>
+                        </ul>
+                     </div>`
+
+          container.innerHTML = div;
+          console.log("Save button clicked");
+        });
+
+
+        cardContent.appendChild(title);
+        cardContent.appendChild(link);
+        cardContent.appendChild(snippet);
+        cardContent.appendChild(saveButton)
+
+
+        card.appendChild(cardContent);
+
+        tabBox2.appendChild(card);
+      });
+
+      const api2Btn = document.getElementById("api2_btn");
+      api2Btn.appendChild(tabBox2);
+
     })
     .catch(error => {
       console.error("Error en la búsqueda: ", error);
     });
+
+  //BORRAR BUSQUEDA
+
+
+
 });
-    
+
 
 //const khanAcPromise = fetch(khanAcademyApi)
 //    .then(response => {
-  //     if(!response.ok){
-    //        throw new Error(`Error in the request: ${response.status}`)
-    //     }
-    //    return response.json();
-    //   });
+//     if(!response.ok){
+//        throw new Error(`Error in the request: ${response.status}`)
+//     }
+//    return response.json();
+//   });
 
 /* 
     Promise.all([googleAcPromise, khanAcPromise])
-
+ 
     .then(responses => {
       const [googleData, khanData] = responses;
       const combinedData = {
@@ -153,63 +399,15 @@ const googleAcPromise =  fetch(googleAcamedicsApi)
       console.error("Error en la búsqueda: ", error);
     }); 
 });
-
+ 
 /* function searchByTerm(searchTerm, data) {
   return data.filter(item =>
     item.title.toLowerCase().includes(searchTerm)
   );
 } */
 
-let tabSection = document.getElementById("result_section");
-function displayTabsByCat(data) {
-  let tabHtml = "";
-  let tabCategory = "";
-  const tabBox = document.querySelector(".tab_box");
-  const tabContent = document.querySelector(".tab_content");
-
-  tabCategory += `<div class="tabs"><button type="button" class="tab_btn" id="tab1">
-      <img class="video_icon" src="../assets/img/icons/ph_video.svg" alt="icono videos"></button>`;
-  tabCategory += `<button type="button" class="tab_btn" id="tab2">
-      <img class="article_icon" src="../assets/img/icons/ph_read-cv-logo.svg" alt="icono articulos"></button></div>`;
-  searchResults.forEach(result => {
-    if (result.category === "Videos") {
-
-      tabHtml += `<div class="video_card">
-      <img src="${result.image}" alt="${result.title}" class="card_img">
-      <div class="video-card_text">
-        <h3>${result.title}</h3>
-        <span><img src="../assets/img/icons/Icon.svg" alt="icono de vistas">${result.views}</span>
-        <span><img src="../assets/img/icons/Comments_Icon.svg" alt="icono de comentarios">${result.comments}</span>
-      </div>
-    </div>`;
-    } else if (result.category === "Artículos") {
 
 
-      tabHtml += `<div class="article_card">
-      <div class="article_info">
-        <h3>${responseData.title}</h3>
-        <p>${responseData.link}</p>
-        <p>${responseData.snippet}</p>
-      </div>
-    </div>`;
-    }
-  });
-
-  tabBox.innerHTML = tabCategory;
-  tabContent.innerHTML = tabHtml;
-
-  tabSection.appendChild(tabBox);
-  tabSection.appendChild(tabContent);
-}
-
-
-
-//TABS
-function selectTab(tabIndex) {
-  document.getElementById("tab1_content").style.display = "none";
-  document.getElementById("tab2_content").style.display = "none";
-  document.getElementById("tab" + tabIndex + "Content").style.display = "block";
-}
 
 
 
@@ -235,10 +433,9 @@ if (compatibleBrowser()) {
 const manejarResultado = resultado => {
   const recognizedText = resultado.results[0][0].transcript;
   console.log("Recognized Text:", recognizedText);
+  const inputBuscador = document.getElementById('tema');
   inputBuscador.value = recognizedText;
 }
-
-
 
 
 
