@@ -211,6 +211,19 @@ main {
     width: 66.25rem;
 }
 
+
+
+#search_videos{
+    margin: 20px 0px 20px 700px;
+}
+#search_articles{
+    margin: 20px 700px 20px 0px;
+}
+
+.line{
+    margin-top: 1%;
+}
+
 .tabButton {
     border: none;
     background-color: rgba(28, 187, 196, 0.10);
@@ -272,13 +285,13 @@ main {
 }
 
 .video_card {
-    height: 456px;
-    width: 30.25rem;
+    height: 39.5625rem;
+    width: 57.5rem;
     display: flex;
     flex-direction: column;
     background-color: rgba(255, 255, 255, 0.80);
     border-radius: 1.25rem;
-    gap: 1.25rem;
+    gap: .3125rem;
     margin: 0px 20px;
     padding: 1.25rem;
     align-items: flex-end;
@@ -289,23 +302,37 @@ main {
 }
 
 .video_img{
-    width: 27.75rem;
-    height: 17.625rem;
+    width: 55rem;
+    height: 31.625rem;
 }
 
 #videos {
     left: 50%;
-    overflow-y: hidden;
+    overflow: auto;
 }
 
 .video_container{
     display: flex;
-    width: 68.75rem;
-    height: 32.5625rem;
+    flex-direction: column;
+    width: 61.25rem;
+    height: auto;
     overflow-y: hidden;
-    gap: 0rem;
+    gap: 1rem;
 }
 
+.video_link{
+    text-decoration: none;
+    color: #0B0033;
+}
+
+.video_link:hover{
+    text-decoration: underline;
+    color: #6100FF;
+}
+
+.video_link h3 img:hover{
+    color: #6100FF;
+}
 
 .card_img {
     width: 22.5rem;
@@ -366,7 +393,7 @@ main {
 
 #save_container{
     position: absolute;
-    background-color: #FFFFFF80;
+    background-color: #FFFFFF;
     width: 27.4375rem;
     height: 15.3125rem;
     border-radius: 1.25rem;
@@ -380,6 +407,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 ul{
