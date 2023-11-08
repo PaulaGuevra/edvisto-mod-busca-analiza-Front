@@ -101,17 +101,20 @@ main {
 
 #definition_card p {
     color: #fff;
-    text-align: right;
+    text-align: center;
     text-wrap: balance;
     margin: 100px 50px;
-    width: 600px;
+    width: 37.5rem;
     float: right;
 }
 
 #card_title {
     text-align: center;
+    margin-bottom: .9375rem;
 }
-
+.logo_card{
+    margin-top: 1.875rem;
+}
 #download_btn{
     background: none;
     border: none;
@@ -234,12 +237,14 @@ main {
     border-radius: 20px;
 }
 
-/* .tabButton .default-image{
-    display: block;
+.default-img{
+    margin: auto;
 }
-.tabButton .active-image{
-    display: none;
-} */
+
+.active-image{
+    margin: auto;
+}
+
 
 .tabButton:active {
     color: hsla(253, 100%, 10%, 1);
@@ -248,14 +253,22 @@ main {
     font-weight: 800;
 }
 
-/* .tabButton:active .default-image{
-    display: none;
-}
-
-.tabButton:active .active-image{
+ #search_videos .active-image{
     display: block;
-}
- */
+ }
+
+ #search_videos .default-img{
+    display: none;
+ }
+
+ #search_articles .default-img{
+    display: block;
+ }
+
+ #search_articles .active-image{
+    display: none;
+ }
+ 
 [data-content] {
     display: none;
 }

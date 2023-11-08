@@ -1,25 +1,28 @@
+//CONSTANTES
+const definitionCard = document.getElementById("definition_card");
+const suggestionCard = document.getElementById("suggestion_card");
+const saveContainer = document.getElementById('save_container');
+const searchAvatar = document.getElementById("search_avtr");
+const searchGreeting = document.getElementById("search_title");
+const searchContainer = document.getElementById("search_sec");
+const blackMicrophone = document.getElementById('alter-micro');
+const microphone = document.getElementById('default-micro');
 
 document.addEventListener("DOMContentLoaded", function () {
-  const definitionCard = document.getElementById("definition_card");
-  const suggestionCard = document.getElementById("suggestion_card");
-  const saveContainer = document.getElementById('save_container');
-  const searchAvatar = document.getElementById("search_avtr");
-  const searchGreeting = document.getElementById("search_title");
-  const searchContainer = document.getElementById("search_sec");
-
   definitionCard.style.display = "none";
   suggestionCard.style.display = "none";
   saveContainer.style.display = "none";
+  blackMicrophone.style.display = "none";
 
   document.getElementById("buttonAdd").addEventListener("click", performSearch);
- //BÚSQUEDA CON IA
+  //BÚSQUEDA CON IA
   function performSearch() {
     const topic = document.getElementById("tema").value;
 
-    /* if (topic === '') {
+    if (topic === '') {
       clearSearchResults()
       return;
-    } */
+    }
 
     const busqueda = `Dame una breve definición de no más de 250 caracteres del tema entre comillas, el lenguaje utilizado debe ser simple para que un niño de 8 años pueda entenderlo, si tiene palabras muy complejas entonces puedes utilizar analogías, pero apégate creativamente a un entorno académico, evita en todo momento el uso de lenguaje ofensivo y contenido que no sea apto para un niño menor de 12 años. Por último, dame una lista de tres recomendaciones de títulos de temas para seguir investigando del tema que estén ligadas a un rango de edad 8-12 años y a esa lista llámala "Sugerencias de búsqueda: " "${topic}"`;
 
@@ -40,13 +43,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetchDefinitionAndSuggestions(data, topic);
   }
- //Definiciones y sugerencias de la IA
+  //Definiciones y sugerencias de la IA
   function fetchDefinitionAndSuggestions(data, topic) {
 
     const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
     const PROJECT_ID = "intrepid-period-401518";
     const MODEL_ID = "text-bison";
-    const ACCESS_TOKEN = "ya29.a0AfB_byC3yenJGCR5pBcGfYxdC2o0ZytPWEuY-QGvIXlFKVB2xKDAPAYokZ6XTeIXUbq-GeConeEzItYJnbvGEZbs6Vsp7t-Hscz5GQMSZ5n2xuAYpiwQ6tv5IDS6oDBwQnU0axn8yY5rKgGqKYnDhyWSf1n_IMU1-suoGZTqu_bNOqQWuUc1TjZ3ZJ1gcrAA3PGMzkoL4ttKoDevdRmtZqUqC22sLn3d8AqZD4sL4A4zEJxbGhYaPVj0yXMOCebLOJX7etUT39fQfFXLlNzymBJqSl-HG-fEZIOPAeo3FeFfa0Rsnscjap1tGfRj7M5yMg9IOcVtsKivbIxvqMzcQy22W3vv6QgIW9akktHbvSk9ManmFxzTpHfOv6-VV3FuPEF59_YsK8wrmmkrDKeIgkR7MyriZfvPaCgYKAakSARISFQHGX2MimRrYJQXyXTe0FIPl02m93Q0423";
+    const ACCESS_TOKEN = "ya29.a0AfB_byDphjUWyRnjMNG7tC0aRhGBygHrRA7qUYeyU5hqwPCPMHFJvrC2raPrIEOsJAGTJ4QxyEWVt3AKtncpA4Hbv2vT2cCd6RS7b47-r3pWK8PshBe5VdJOcEwp_NegqCFzFyZ3niD5ThxnmBi1JA-KXUwf4-RVvgXEo3_odgm6b8uc35gQsTMWgAlhoNGQeZC3X_Qh0WKXKs1arPq64PHv0ew_G6zS1PDn9d1Y89_s5bxoXa-HPizuxDdM5MUSNhG3HimPVOVdo9yiz60FbTUea5vlT6ttk_MgJWZW0f39rRPIr0TRVlfNcnqiUkSEmOD40Vu-wrez0yoolXune2GLkH0TpSUVZTMoyGYkmOJGA3WhUyCriPwh9jcGrrgp7QqgAwkrjdv7twsEU7iaMQ7YMD3i-2mwaCgYKAUQSARISFQHGX2MiA25KX6eV_seI5pDjVsCbHw0423";
 
     const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
@@ -74,6 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
           searchContainer.style.backgroundColor = "#fff";
           definitionCard.style.display = "block";
           suggestionCard.style.display = "block";
+          microphone.style.display = "none";
+          blackMicrophone.style.display = "block";
 
           const parte1 = respuestaSaltos.substring(0, indice).trim();
           const parte2 = respuestaSaltos.substring(indice).trim().split("*");
@@ -124,14 +129,18 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           });
 
-          document.getElementById("definicion").innerHTML = `<h3 id="card_title">${topic.toUpperCase()}</h3>` + parte1 + `<button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button>`;
+          document.getElementById("definicion").innerHTML = `<h3 id="card_title">${topic.toUpperCase()}</h3>` + parte1 + `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=100><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button>`;
         }
       })
       .catch((error) => {
         console.error(error);
       });
   }
+
+
 });
+
+
 
 
 //BÚSQUEDA VIDEOS Y ARTICULOS
@@ -140,44 +149,49 @@ const searchButton = document.querySelector(".search_btn");
 const searchInput = document.querySelector(".busqueda");
 
 searchButton.addEventListener('click', search)
-//Función de búsqueda
+
+//FUNCIÓN DE BÚSQUEDA
 function search() {
   const inputBuscador = searchInput.value.toLowerCase();
-  const searchTerm = inputBuscador.replace(/ /g, "+");
-
-  if (searchTerm.length === 0) {
-    alert('Debes escribir una palabra en la barra de búsqueda');
-    return;
-  }
-  // clearSearchResults();
-
+  const searchTerm = inputBuscador.replace(/ /g, "+");  
+  clearTabsContent();
   createTabButtons();
- 
-
   searchYouTube(searchTerm);
   searchGoogleAcademics(searchTerm);
-
-  // searchInput.addEventListener('input', clearSearchResults);
 }
 
 //TABS
 function createTabButtons() {
   const tabButtons = document.getElementById("tab_btn");
-  tabButtons.innerHTML = `<div id="api1_btn">
-    <button class="tabButton active" id="search_videos" aria-label="Resultados de videos" data-target="#videos">
-    <img class="active-image" src="../assets/img/icons/ph_video.svg"></button></div>
-    <img src="./assets/img//icons/separadorTabs.svg" alt="linea divisora" class="line">
-    <div id="api2_btn"><button class="tabButton" id="search_articles" aria-label="Resultado de articulos" data-target="#articles">
-    <img class="active-image" src="../assets/img/icons/tab_articulos.svg"></button></div>`;
+  if (tabButtons) {
+    
+    tabButtons.innerHTML = `<div id="api1_btn">
+      <button class="tabButton active" id="search_videos" aria-label="Resultados de videos" data-target="#videos">
+      <img class="default-img" src="../assets/img/icons/videos_tab_white.svg" alt="icono video">
+      <img class="active-image" src="../assets/img/icons/ph_video.svg" alt="icono video">
+      </button></div>
+      <img src="./assets/img//icons/separadorTabs.svg" alt="linea divisora" class="line">
+      <div id="api2_btn"><button class="tabButton" id="search_articles" aria-label="Resultado de articulos" data-target="#articles">
+      <img class="default-img" src="../assets/img/icons/art_tab_white.svg" alt="icono articulo">
+      <img class="active-image" src="../assets/img/icons/tab_articulos.svg" alt="icono articulo"></button></div>`;
+  }
 
   const buttons_tab = document.querySelectorAll('.tabButton');
   buttons_tab.forEach(b => {
     b.addEventListener('click', () => {
       buttons_tab.forEach(btn => {
         btn.classList.remove('active');
+        const activeImg = btn.querySelector('.active-image');
+        const defaultImg = btn.querySelector('.default-img');
+        activeImg.style.display = "none";
+        defaultImg.style.display = "block";
       });
       b.classList.add('active');
-    });    
+      const activeImg = b.querySelector('.active-image');
+      const defaultImg = b.querySelector('.default-img');
+      activeImg.style.display = "block";
+      defaultImg.style.display = "none";
+    });
     const targets = document.querySelectorAll('[data-target]');
     const content = document.querySelectorAll('[data-content]');
     targets.forEach(target => {
@@ -187,9 +201,41 @@ function createTabButtons() {
         })
         const t = document.querySelector(target.dataset.target)
         t.classList.add("activo")
-        });
-        });
+      });
+    });
   });
+}
+
+//BORRAR TABS
+function clearTabsContent() {
+  const tabBox1 = document.querySelector(".tab_api1");
+  const tabBox2 = document.querySelector(".tab_api2");
+  
+  if (tabBox1) {
+    tabBox1.innerHTML = '';
+  }
+
+  if (tabBox2) {
+    tabBox2.innerHTML = '';
+  }
+
+  // Restablece la pestaña activa si es necesario
+  const buttons_tab = document.querySelectorAll('.tabButton');
+  buttons_tab.forEach(b => {
+    b.classList.remove('active');
+    const activeImg = b.querySelector('.active-image');
+    const defaultImg = b.querySelector('.default-img');
+    activeImg.style.display = "none";
+    defaultImg.style.display = "block";
+  });
+  const firstTabButton = document.querySelector('.tabButton');
+  if (firstTabButton) {
+    firstTabButton.classList.add('active');
+    const activeImg = firstTabButton.querySelector('.active-image');
+    const defaultImg = firstTabButton.querySelector('.default-img');
+    activeImg.style.display = "block";
+    defaultImg.style.display = "none";
+  }
 }
 
 //BOTÓN DE GUARDADO
@@ -237,10 +283,10 @@ function searchYouTube(searchTerm) {
       tabBox1.innerHTML = '';
       const videoContainer = document.createElement('div');
       videoContainer.classList.add('video_container');
-      responseData.forEach(channel =>{
+      responseData.forEach(channel => {
         const channelName = channel.channelId;
         let nombreCanal;
-        
+
         if (channelName === "UCnmlG_YzRYzWzJbW2oDn_ow") {
           nombreCanal = "National Geographic";
         } else {
@@ -263,7 +309,7 @@ function searchYouTube(searchTerm) {
           createSaveButton(resultElement);
           videoContainer.appendChild(resultElement);
           tabBox1.appendChild(videoContainer);
-      })
+        })
       });
       const api1Btn = document.getElementById("api1_btn");
       api1Btn.appendChild(tabBox1);
@@ -301,7 +347,7 @@ function searchGoogleAcademics(searchTerm) {
     .then(responseData => {
       const tabBox2 = document.querySelector(".tab_api2");
       tabBox2.innerHTML = '';
-      if (responseData.results !== "" && responseData.results !== undefined){
+      if (responseData.results !== "" && responseData.results !== undefined) {
         responseData.results.forEach(result => {
           const card = document.createElement("div");
           card.classList.add("card");
@@ -312,18 +358,18 @@ function searchGoogleAcademics(searchTerm) {
           title.innerText = modifiedTitle;
           const link = document.createElement("a");
           link.href = result.link;
-          link.appendChild(title);    
-  
+          link.appendChild(title);
+
           const snippet = document.createElement("p");
           snippet.classList.add("card-text");
           snippet.textContent = result.snippet;
-  
+
           cardContent.appendChild(link);
           cardContent.appendChild(snippet);
           createSaveButton(cardContent)
-  
+
           card.appendChild(cardContent);
-  
+
           tabBox2.appendChild(card);
         });
       }
@@ -337,28 +383,57 @@ function searchGoogleAcademics(searchTerm) {
 
 //BORRAR BUSQUEDA
 function clearSearchResults() {
- const searchInput = document.getElementById('tema');
-
- 
-    const searchHtml = document.getElementById('search_result_section');
-    searchHtml.innerHTML= "";
-   
-
-  performSearch();
+  const searchHtml = document.getElementById('search_result_section');
+  if (searchHtml) {
+    searchHtml.innerHTML = "";
+  }
+  
+  if (definitionCard) {
+    definitionCard.style.display = "none";
+  }
+  if (suggestionCard) {
+    suggestionCard.style.display = "none";
+  }
+  if (saveContainer) {
+    saveContainer.style.display = "none";
+  }
+  if (blackMicrophone) {
+    blackMicrophone.style.display = "none";
+  }
+  if (microphone) {
+    microphone.style.display = "block";
+  }
+  if (searchAvatar) {
+    searchAvatar.style.display = "flex";
+  }
+  if (searchGreeting) {
+    searchGreeting.style.display = "inline-flex";
+  }
+  if (searchContainer) {
+    searchContainer.style.backgroundColor = "#0B0033";
+  }
+  if (searchInput) {
+    searchInput.value = "";
+  }
+  clearTabsContent();
   search();
 }
 
-document.getElementById('tema').addEventListener('keydown', function(event){
-  if(event.Backspace){
+
+
+document.getElementById('tema').addEventListener('keydown', function (event) {
+  if (event.key === 'Backspace' && this.value === '') {
     clearSearchResults();
   }
-  });
+});
 
 
 
 //MICROPHONE
 const compatibleBrowser = () => {
-  if (navigator.userAgent.indexOf("Chrome") || navigator.userAgent.indexOf("Edge") || navigator.userAgent.indexOf("Safari")) return true;
+  if (navigator.userAgent.indexOf("Chrome") !== -1 || navigator.userAgent.indexOf("Edge") !== -1 || navigator.userAgent.indexOf("Safari") !== -1) {
+    return true;
+  }
   console.log("el navegador no es compatible con el reconocimiento de voz");
   return false;
 }
@@ -367,9 +442,11 @@ if (compatibleBrowser()) {
   const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
   recognition.lang = "es-US";
 
-  const microphoneIcon = document.querySelector('.mic_btn');
-  microphoneIcon.addEventListener('click', () => {
-    recognition.start();
+  const microphoneIcons = document.querySelectorAll('.mic_btn');
+  microphoneIcons.forEach(microphoneIcon => {
+    microphoneIcon.addEventListener('click', () => {
+      recognition.start();
+    });
   });
 
   recognition.onresult = resultado => { manejarResultado(resultado) };
@@ -381,6 +458,7 @@ const manejarResultado = resultado => {
   const inputBuscador = document.getElementById('tema');
   inputBuscador.value = recognizedText;
 }
+
 
 
 
