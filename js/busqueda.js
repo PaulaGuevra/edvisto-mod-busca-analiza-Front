@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
     const PROJECT_ID = "intrepid-period-401518";
     const MODEL_ID = "text-bison";
-    const ACCESS_TOKEN = "ya29.a0AfB_byDphjUWyRnjMNG7tC0aRhGBygHrRA7qUYeyU5hqwPCPMHFJvrC2raPrIEOsJAGTJ4QxyEWVt3AKtncpA4Hbv2vT2cCd6RS7b47-r3pWK8PshBe5VdJOcEwp_NegqCFzFyZ3niD5ThxnmBi1JA-KXUwf4-RVvgXEo3_odgm6b8uc35gQsTMWgAlhoNGQeZC3X_Qh0WKXKs1arPq64PHv0ew_G6zS1PDn9d1Y89_s5bxoXa-HPizuxDdM5MUSNhG3HimPVOVdo9yiz60FbTUea5vlT6ttk_MgJWZW0f39rRPIr0TRVlfNcnqiUkSEmOD40Vu-wrez0yoolXune2GLkH0TpSUVZTMoyGYkmOJGA3WhUyCriPwh9jcGrrgp7QqgAwkrjdv7twsEU7iaMQ7YMD3i-2mwaCgYKAUQSARISFQHGX2MiA25KX6eV_seI5pDjVsCbHw0423";
+    const ACCESS_TOKEN = "ya29.a0AfB_byD9D8pUvWhtxnToChf9uzK3N4Y31dvRLV9Wm8XPj_6igBcw758k2ooVF4-1_wT2OTOQDU0pyvctqMyg-MUeuEvlXsT0zIhi_JY2qKl_R8pqbxnkFnGE8BreQE9XyIFsfsnhIl7jzXqhLQ4jnESyRy_hMxuVq-IU3S3r4bejqORtAy0UtcCMyRToeJbQZfcOgRWlxmn-RxPqVDQ4t1NlmSwegdAgVSUhPmNiaPV5qI5HKhMRYgsIPeLESYHnG7k46B6HHPoQh0_JO5ZN5fNKxyFOp5crD1t4UCqgeIsyHoHVg3pzd5Iu6HYuHlg4SckmrK7juoMBRGpR7nH_4IJAbNuCruwfFeh88gTKJ7zYIiR5pWOXMVZKKqwhxcA1Aj2648WkFS3Md6Or3GHPOJk7yEwYAv_BaCgYKAZYSARISFQHGX2MiSCTUJe_AvmNyjQU5Mje9bw0423";
 
     const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
