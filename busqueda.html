@@ -11,27 +11,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100;200;300;400;500;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
     <main>
         <div class="search_section" id="search_sec">
-            <img src="./assets/img/avatar_busqueda.svg" alt="perrito profesor" class="avatar" id="search_avtr">
-
             <h4 class="search_title" id="search_title">¡Hola!¿Qué buscaremos hoy?</h4>
-
             <div class="buscador">
                 <input class="busqueda" type="search" name="search" aria-label="Search" x-webkit-speech id="tema">
                 <img src="./assets/img/icons/Voice.svg" alt="icono de microfono" class="mic_btn" id="default-micro">
-                <img src="./assets/img/icons/microphone_black.svg" alt="icono microfono negro" class="mic_btn" id="alter-micro">
+                <img src="./assets/img/icons/microphone_black.svg" alt="icono microfono negro" class="mic_btn"
+                    id="alter-micro">
                 <button type="button" class="search_btn" id="buttonAdd">
                     <img src="./assets/img/icons/lupa.svg" alt="lupa">
                 </button>
             </div>
+            <img src="./assets/img/avatar_busqueda.svg" alt="perrito profesor" class="avatar" id="search_avtr">
+
         </div>
-        <div id="search_result_section"> 
-            <div id="definition_card">
-                <p id="definicion"></p>
+        <div id="search_result_section">
+            <div id="capture-area">
+                <div id="definition_card">
+                    <p id="definicion"></p>
+                </div>
             </div>
             <div id="suggestion_card">
                 <p id="ideas"></p>
@@ -47,6 +50,8 @@
     </main>
     <script src="./js/data.js"></script>
     <script type="module" src="./js/busqueda.js"></script>
-</body>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+   
+</body >
 
-</html>
+</html >

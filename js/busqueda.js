@@ -1,3 +1,4 @@
+
 //CONSTANTES
 const definitionCard = document.getElementById("definition_card");
 const suggestionCard = document.getElementById("suggestion_card");
@@ -7,6 +8,10 @@ const searchGreeting = document.getElementById("search_title");
 const searchContainer = document.getElementById("search_sec");
 const blackMicrophone = document.getElementById('alter-micro');
 const microphone = document.getElementById('default-micro');
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   definitionCard.style.display = "none";
@@ -43,13 +48,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetchDefinitionAndSuggestions(data, topic);
   }
+
+  //descarga definition card
+  function captureAndDownloadScreenshot() {
+    const targetElement = document.getElementById('capture-area');
+    const topicInput = document.getElementById('tema');
+    const downloadBtn = document.getElementById('download_btn');
+
+
+    const topicValue = topicInput.value;
+
+    downloadBtn.style.visibility = 'hidden';
+
+    html2canvas(targetElement).then(function (canvas) {
+      const dataUrl = canvas.toDataURL('image/jpeg');
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = dataUrl;
+
+      downloadLink.download = `${topicValue}_screenshot.jpeg`;
+
+      document.body.appendChild(downloadLink);
+
+      downloadLink.click();
+
+      document.body.removeChild(downloadLink);
+
+      downloadBtn.style.visibility = 'visible';
+    });
+  }
+
+
+
+
   //Definiciones y sugerencias de la IA
   function fetchDefinitionAndSuggestions(data, topic) {
 
     const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
     const PROJECT_ID = "intrepid-period-401518";
     const MODEL_ID = "text-bison";
-    const ACCESS_TOKEN = "ya29.a0AfB_byD9D8pUvWhtxnToChf9uzK3N4Y31dvRLV9Wm8XPj_6igBcw758k2ooVF4-1_wT2OTOQDU0pyvctqMyg-MUeuEvlXsT0zIhi_JY2qKl_R8pqbxnkFnGE8BreQE9XyIFsfsnhIl7jzXqhLQ4jnESyRy_hMxuVq-IU3S3r4bejqORtAy0UtcCMyRToeJbQZfcOgRWlxmn-RxPqVDQ4t1NlmSwegdAgVSUhPmNiaPV5qI5HKhMRYgsIPeLESYHnG7k46B6HHPoQh0_JO5ZN5fNKxyFOp5crD1t4UCqgeIsyHoHVg3pzd5Iu6HYuHlg4SckmrK7juoMBRGpR7nH_4IJAbNuCruwfFeh88gTKJ7zYIiR5pWOXMVZKKqwhxcA1Aj2648WkFS3Md6Or3GHPOJk7yEwYAv_BaCgYKAZYSARISFQHGX2MiSCTUJe_AvmNyjQU5Mje9bw0423";
+    const ACCESS_TOKEN = "ya29.a0AfB_byAxuNil3oyWojLGcqww0yygGuT_wCT_G1yaK41kI3CLMdkZ-mGOW3lgbxdpLsS6S-X4d4TCQkuXaYkLmJ1H5GYC0goDZAeaXP6hIJ8gquL1TyE2Ir4dTRvWhsMfDebNIuNfAHyVy2AYY2yCWd6tTW2GwheL5ZP8eVK1ngCQ4NuLqnMm_ZuvJtw5kX-Lg19JysQg6Wq7eWFRopkZ6srkpE54uNR2wY4FVgkiF8_UxaSaLakAcZVcYClDQtudGIeF3YtN5B1lgVsd3o7juNFD2Ya9tjfaf3t0ycbgfv2SZzGjxm8ZKEfwu9QSJhPJc_sV310-7VVsSJQ-xNEBnT9ZIfkqn8SKnVJltiDrsid9woNeXFkR8Rpq1uymFnl5MZ7iHRCkjjXr-DCpxipHx6AEz9jjPYGsaCgYKAY4SARISFQHGX2MiOiJZX0HxjlT0QWh3xfXxQw0423";
 
     const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
@@ -112,29 +150,34 @@ document.addEventListener("DOMContentLoaded", function () {
               copyButton.addEventListener("click", () => {
                 const dataIndex = copyButton.getAttribute("data-index");
                 const textToCopy = document.querySelector(`.text_to_copy[data-index="${dataIndex}"]`).textContent;
-
+                
                 const tempTextArea = document.createElement("textarea");
                 tempTextArea.value = textToCopy;
                 document.body.appendChild(tempTextArea);
                 tempTextArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(tempTextArea);
+               //sweet alert here
+              
+              copyButton.title = "El texto ha sido copiado al portapapeles";
+            });
 
-                copyButton.title = "El texto ha sido copiado al portapapeles";
-              });
-
-              suggestionContainer.appendChild(suggestion);
-              suggestionContainer.appendChild(copyButton);
-              suggestionCard.appendChild(suggestionContainer);
-            }
-          });
-
-          document.getElementById("definicion").innerHTML = `<h3 id="card_title">${topic.toUpperCase()}</h3>` + parte1 + `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=100><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button>`;
+          suggestionContainer.appendChild(suggestion);
+          suggestionContainer.appendChild(copyButton);
+          suggestionCard.appendChild(suggestionContainer);
         }
-      })
-      .catch((error) => {
-        console.error(error);
       });
+
+
+
+    document.getElementById("definicion").innerHTML = `<h3 id="card_title">${topic.toUpperCase()}</h3>` + parte1 + `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=50><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button></div>`;
+
+    document.getElementById('download_btn').addEventListener('click', captureAndDownloadScreenshot)
+  }
+})
+  .catch((error) => {
+    console.error(error);
+  });
   }
 
 
@@ -153,18 +196,20 @@ searchButton.addEventListener('click', search)
 //FUNCIÓN DE BÚSQUEDA
 function search() {
   const inputBuscador = searchInput.value.toLowerCase();
-  const searchTerm = inputBuscador.replace(/ /g, "+");  
-  clearTabsContent();
-  createTabButtons();
-  searchYouTube(searchTerm);
-  searchGoogleAcademics(searchTerm);
+  const searchTerm = inputBuscador.replace(/ /g, "+");
+  if (searchTerm != ""){
+    clearTabsContent();
+    createTabButtons();
+    searchYouTube(searchTerm);
+    searchGoogleAcademics(searchTerm);
+  }
 }
 
 //TABS
 function createTabButtons() {
   const tabButtons = document.getElementById("tab_btn");
   if (tabButtons) {
-    
+
     tabButtons.innerHTML = `<div id="api1_btn">
       <button class="tabButton active" id="search_videos" aria-label="Resultados de videos" data-target="#videos">
       <img class="default-img" src="../assets/img/icons/videos_tab_white.svg" alt="icono video">
@@ -210,7 +255,7 @@ function createTabButtons() {
 function clearTabsContent() {
   const tabBox1 = document.querySelector(".tab_api1");
   const tabBox2 = document.querySelector(".tab_api2");
-  
+
   if (tabBox1) {
     tabBox1.innerHTML = '';
   }
@@ -249,18 +294,30 @@ function createSaveButton(parentElement) {
 
   saveButton.addEventListener("click", () => {
     const container = document.getElementById('save_container');
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
     container.style.display = "block";
-    let div = `<div class="save_div">
-                 <h3>Guardar en Biblioteca del Explorador</h3>
-                 <ul>
-                    <li><button type="button" id="c1"> Carpeta 1 </button> </li>
-                    <li><button type="button" id="c2"> Carpeta 2 </button> </li>
-                    <li><button type="button" id="new_folder"> Nuevo </button> </li>
-                  </ul>
-               </div>`;
+    let div = `
+        <div class="save_div">
+            <h3>Guardar en Biblioteca del Explorador</h3>
+            <ul>
+                <li><button type="button" id="c1"><img src="../assets/img/icons/white_save_icon.svg" alt="icono guardar"> Carpeta 1 </button> </li>
+                <li><button type="button" id="c2"><img src="../assets/img/icons/white_save_icon.svg" alt="icono guardar">  Carpeta 2 </button> </li>
+                <li><button type="button" id="new_folder"><img src="../assets/img/icons/newproject.svg" alt="icono nueva carpetar"> Nuevo </button> </li>
+            </ul>
+        </div>`;
     container.innerHTML = div;
+
     console.log("Save button clicked");
+    // You can add a sweet alert or any other functionality here
+
+    overlay.addEventListener('click', () => {
+      container.style.display = "none";
+      overlay.remove();
+    });
   });
+
 
   parentElement.appendChild(saveButton);
 }
@@ -358,6 +415,7 @@ function searchGoogleAcademics(searchTerm) {
           title.innerText = modifiedTitle;
           const link = document.createElement("a");
           link.href = result.link;
+          link.target = "_blank";
           link.appendChild(title);
 
           const snippet = document.createElement("p");
@@ -385,9 +443,21 @@ function searchGoogleAcademics(searchTerm) {
 function clearSearchResults() {
   const searchHtml = document.getElementById('search_result_section');
   if (searchHtml) {
-    searchHtml.innerHTML = "";
+    searchHtml.innerHTML = ` <div id="capture-area">
+                <div id="definition_card" style="display:none">
+                    <p id="definicion"></p>
+                </div>
+            </div>
+            <div id="suggestion_card" style="display:none">
+                
+            </div>
+            <div id="result_section" style="display:none">
+                <div id="tab_btn"></div>
+                <div class="tab_api1 activo" id="videos" data-content></div>
+                <div class="tab_api2" id="articles" data-content></div>
+                <div id="save_container"></div>
+            </div>`;
   }
-  
   if (definitionCard) {
     definitionCard.style.display = "none";
   }
