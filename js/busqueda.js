@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const topic = document.getElementById("tema").value;
 
     if (topic === '') {
-      clearSearchResults()
+      
       return;
     }
 
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
     const PROJECT_ID = "intrepid-period-401518";
     const MODEL_ID = "text-bison";
-    const ACCESS_TOKEN = "ya29.a0AfB_byAxuNil3oyWojLGcqww0yygGuT_wCT_G1yaK41kI3CLMdkZ-mGOW3lgbxdpLsS6S-X4d4TCQkuXaYkLmJ1H5GYC0goDZAeaXP6hIJ8gquL1TyE2Ir4dTRvWhsMfDebNIuNfAHyVy2AYY2yCWd6tTW2GwheL5ZP8eVK1ngCQ4NuLqnMm_ZuvJtw5kX-Lg19JysQg6Wq7eWFRopkZ6srkpE54uNR2wY4FVgkiF8_UxaSaLakAcZVcYClDQtudGIeF3YtN5B1lgVsd3o7juNFD2Ya9tjfaf3t0ycbgfv2SZzGjxm8ZKEfwu9QSJhPJc_sV310-7VVsSJQ-xNEBnT9ZIfkqn8SKnVJltiDrsid9woNeXFkR8Rpq1uymFnl5MZ7iHRCkjjXr-DCpxipHx6AEz9jjPYGsaCgYKAY4SARISFQHGX2MiOiJZX0HxjlT0QWh3xfXxQw0423";
+    const ACCESS_TOKEN = "ya29.a0AfB_byD_A1cB0YINEmzsjuXTDo3N0_89kqSdIpJ0m1HyBQwKDGz3WKUUrhCuRsPKxi5ZCNU9I5jdD4O1YRC4S_nfF_p4OJCJTm5rbi2ixlGoQ2J_1MLKLWRWQnBY8pmdUqUr9eY3_-DGYYKBE8MxuSWH_2fLXBdiqqGBi2aXVLDN1Nup6fvRsRhNugfBNO85FwZvdaq4sF5NyMmBUNKZSnCVVqm4KwrH9MIp1DTDhJGKxC-4eiMero0KB9gNEDfbiMq8U-TY-Ft3QGMqFGgySWGJub9ygUNH6KQ86x8dsOesWHWfNMuLV7ZfLz0GZMp0Ij6Qu-uHKs0vB9JS9KdN5D_6U4g-5KCEBtBQhjt3rtO8ZffBwhIRIvIK8gD3IJ6C4mOO2Cwszou6zRv3j_8ZJgAr88oL_JPA_waCgYKAcASARISFQHGX2MiTJT-114r9PKAMRCdKUG9cg0425";
 
     const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-//BÚSQUEDA VIDEOS Y ARTICULOS
+//BÚSQUEDA 
 
 const searchButton = document.querySelector(".search_btn");
 const searchInput = document.querySelector(".busqueda");
@@ -264,7 +264,7 @@ function clearTabsContent() {
     tabBox2.innerHTML = '';
   }
 
-  // Restablece la pestaña activa si es necesario
+  
   const buttons_tab = document.querySelectorAll('.tabButton');
   buttons_tab.forEach(b => {
     b.classList.remove('active');
