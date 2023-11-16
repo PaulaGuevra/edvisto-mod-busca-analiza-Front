@@ -25,6 +25,7 @@ body {
     margin-top: 1.875rem;
     align-items: center;
     justify-content: center;
+    overflow-x: clip;
 }
 
 main {
@@ -91,7 +92,7 @@ main {
 .avatar {
     height: 26.9375rem;
     position: absolute;
-    left: 63%;
+    left: 79%;
 
 }
 
@@ -200,6 +201,19 @@ main {
 
 }
 
+
+.custom-swal-popup {
+    width: 1000px !important;
+    height: 80px !important;
+    padding: 0.5rem 1rem;
+  }
+  
+  .custom-swal-title {
+    font-size: 16px;
+    margin-bottom: 0;
+  } 
+  
+
 #result_section {
     width: 100vw;
     display: flex;
@@ -227,7 +241,7 @@ main {
     flex-direction: row;
     align-items: flex-start;
     background-color: rgba(28, 187, 196, 0.70);
-    width: 100%;
+     
 }
 
 

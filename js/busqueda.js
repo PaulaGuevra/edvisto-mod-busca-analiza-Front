@@ -1,17 +1,12 @@
-
 //CONSTANTES
 const definitionCard = document.getElementById("definition_card");
 const suggestionCard = document.getElementById("suggestion_card");
-const saveContainer = document.getElementById('save_container');
+const saveContainer = document.getElementById("save_container");
 const searchAvatar = document.getElementById("search_avtr");
 const searchGreeting = document.getElementById("search_title");
 const searchContainer = document.getElementById("search_sec");
-const blackMicrophone = document.getElementById('alter-micro');
-const microphone = document.getElementById('default-micro');
-
-
-
-
+const blackMicrophone = document.getElementById("alter-micro");
+const microphone = document.getElementById("default-micro");
 
 document.addEventListener("DOMContentLoaded", function () {
   definitionCard.style.display = "none";
@@ -24,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function performSearch() {
     const topic = document.getElementById("tema").value;
 
-    if (topic === '') {
-      
+    if (topic === "") {
       return;
     }
 
@@ -51,19 +45,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //descarga definition card
   function captureAndDownloadScreenshot() {
-    const targetElement = document.getElementById('capture-area');
-    const topicInput = document.getElementById('tema');
-    const downloadBtn = document.getElementById('download_btn');
-
+    const targetElement = document.getElementById("capture-area");
+    const topicInput = document.getElementById("tema");
+    const downloadBtn = document.getElementById("download_btn");
 
     const topicValue = topicInput.value;
 
-    downloadBtn.style.visibility = 'hidden';
+    downloadBtn.style.visibility = "hidden";
 
     html2canvas(targetElement).then(function (canvas) {
-      const dataUrl = canvas.toDataURL('image/jpeg');
+      const dataUrl = canvas.toDataURL("image/jpeg");
 
-      const downloadLink = document.createElement('a');
+      const downloadLink = document.createElement("a");
       downloadLink.href = dataUrl;
 
       downloadLink.download = `${topicValue}_screenshot.jpeg`;
@@ -74,20 +67,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
       document.body.removeChild(downloadLink);
 
-      downloadBtn.style.visibility = 'visible';
+      downloadBtn.style.visibility = "visible";
     });
   }
 
-
-
-
   //Definiciones y sugerencias de la IA
   function fetchDefinitionAndSuggestions(data, topic) {
-
     const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
     const PROJECT_ID = "intrepid-period-401518";
     const MODEL_ID = "text-bison";
-    const ACCESS_TOKEN = "ya29.a0AfB_byD_A1cB0YINEmzsjuXTDo3N0_89kqSdIpJ0m1HyBQwKDGz3WKUUrhCuRsPKxi5ZCNU9I5jdD4O1YRC4S_nfF_p4OJCJTm5rbi2ixlGoQ2J_1MLKLWRWQnBY8pmdUqUr9eY3_-DGYYKBE8MxuSWH_2fLXBdiqqGBi2aXVLDN1Nup6fvRsRhNugfBNO85FwZvdaq4sF5NyMmBUNKZSnCVVqm4KwrH9MIp1DTDhJGKxC-4eiMero0KB9gNEDfbiMq8U-TY-Ft3QGMqFGgySWGJub9ygUNH6KQ86x8dsOesWHWfNMuLV7ZfLz0GZMp0Ij6Qu-uHKs0vB9JS9KdN5D_6U4g-5KCEBtBQhjt3rtO8ZffBwhIRIvIK8gD3IJ6C4mOO2Cwszou6zRv3j_8ZJgAr88oL_JPA_waCgYKAcASARISFQHGX2MiTJT-114r9PKAMRCdKUG9cg0425";
+    const ACCESS_TOKEN =
+      "ya29.a0AfB_byAvzOmDPnRA0A97SZLDQpuLnlb_5JjowTFv86zO-3_nvHwrg4dbpiOOJ_saZDJdyX6ERTcFxG3YtT-CY48x_1Nqi9oEDdjpyv2UTyHJY8kBm2DgzTvc2JdjnbrXssabJ2JuwnW7oxeHO7gCHHN6PGC7qXOO3D4nxJZyacyYDId-lUQ4pgvqyAXpmzVyp2usR3z_CcWz2u3-B5yuSdrFSFK4vLXlPOBSCcHl_Ksg9eIu93VCVfEjGVmWVR9t4BhasGO4DEacQQeiLN6ZmEPf6jURd8eAXQwTDSYpr0tTNVeNzvPsM5HMZKMnUN_F3zuJSbloE33KXr73sBu2H0zwjMej_HkTgYTpuN74QTAknd_2AY-f6Di_nTZ19zS_Jois7Xq2lnasz-ZphhhxXNFHu45pPnQNaCgYKATgSARISFQHGX2Mi7E7ookVpRpdK-lpIicdt9w0423";
 
     const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
@@ -127,14 +117,15 @@ document.addEventListener("DOMContentLoaded", function () {
           titulo.textContent = "Sugerencias de búsqueda";
           suggestionCard.appendChild(titulo);
 
+          // busqueda.js
           parte2.forEach((respuestaSalto, index) => {
-            if (index !== 0) {
+            if (index !== 0 && respuestaSalto !== "") {
               const suggestionContainer = document.createElement("div");
               suggestionContainer.classList.add("suggestion-container");
 
               const suggestion = document.createElement("span");
               suggestion.className = "text_to_copy";
-              suggestion.setAttribute("data-index", index)
+              suggestion.setAttribute("data-index", index);
               suggestion.textContent = respuestaSalto;
 
               const copyButton = document.createElement("button");
@@ -147,57 +138,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
               copyButton.appendChild(icon);
 
+              // Attach event listener to each copy button
               copyButton.addEventListener("click", () => {
                 const dataIndex = copyButton.getAttribute("data-index");
-                const textToCopy = document.querySelector(`.text_to_copy[data-index="${dataIndex}"]`).textContent;
-                
+                const textToCopy = document.querySelector(
+                  `.text_to_copy[data-index="${dataIndex}"]`
+                ).textContent;
+
                 const tempTextArea = document.createElement("textarea");
                 tempTextArea.value = textToCopy;
                 document.body.appendChild(tempTextArea);
                 tempTextArea.select();
-                document.execCommand('copy');
+                document.execCommand("copy");
                 document.body.removeChild(tempTextArea);
-               //sweet alert here
-              
-              copyButton.title = "El texto ha sido copiado al portapapeles";
-            });
 
-          suggestionContainer.appendChild(suggestion);
-          suggestionContainer.appendChild(copyButton);
-          suggestionCard.appendChild(suggestionContainer);
+                document.dispatchEvent(
+                  new CustomEvent("textCopied", { detail: textToCopy })
+                );
+              });
+
+              suggestionContainer.appendChild(suggestion);
+              suggestionContainer.appendChild(copyButton);
+              suggestionCard.appendChild(suggestionContainer);
+            }
+          });
+
+          document.getElementById("definicion").innerHTML =
+            `<h3 id="card_title">${topic.toUpperCase()}</h3>` +
+            parte1 +
+            `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=50><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button></div>`;
+
+          document
+            .getElementById("download_btn")
+            .addEventListener("click", captureAndDownloadScreenshot);
         }
+      })
+      .catch((error) => {
+        console.error(error);
       });
-
-
-
-    document.getElementById("definicion").innerHTML = `<h3 id="card_title">${topic.toUpperCase()}</h3>` + parte1 + `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=50><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button></div>`;
-
-    document.getElementById('download_btn').addEventListener('click', captureAndDownloadScreenshot)
   }
-})
-  .catch((error) => {
-    console.error(error);
-  });
-  }
-
-
 });
 
-
-
-
-//BÚSQUEDA 
+//BÚSQUEDA
 
 const searchButton = document.querySelector(".search_btn");
 const searchInput = document.querySelector(".busqueda");
 
-searchButton.addEventListener('click', search)
+searchButton.addEventListener("click", search);
 
 //FUNCIÓN DE BÚSQUEDA
 function search() {
   const inputBuscador = searchInput.value.toLowerCase();
   const searchTerm = inputBuscador.replace(/ /g, "+");
-  if (searchTerm != ""){
+  if (searchTerm != "") {
     clearTabsContent();
     createTabButtons();
     searchYouTube(searchTerm);
@@ -209,7 +202,6 @@ function search() {
 function createTabButtons() {
   const tabButtons = document.getElementById("tab_btn");
   if (tabButtons) {
-
     tabButtons.innerHTML = `<div id="api1_btn">
       <button class="tabButton active" id="search_videos" aria-label="Resultados de videos" data-target="#videos">
       <img class="default-img" src="../assets/img/icons/videos_tab_white.svg" alt="icono video">
@@ -221,31 +213,31 @@ function createTabButtons() {
       <img class="active-image" src="../assets/img/icons/tab_articulos.svg" alt="icono articulo"></button></div>`;
   }
 
-  const buttons_tab = document.querySelectorAll('.tabButton');
-  buttons_tab.forEach(b => {
-    b.addEventListener('click', () => {
-      buttons_tab.forEach(btn => {
-        btn.classList.remove('active');
-        const activeImg = btn.querySelector('.active-image');
-        const defaultImg = btn.querySelector('.default-img');
+  const buttons_tab = document.querySelectorAll(".tabButton");
+  buttons_tab.forEach((b) => {
+    b.addEventListener("click", () => {
+      buttons_tab.forEach((btn) => {
+        btn.classList.remove("active");
+        const activeImg = btn.querySelector(".active-image");
+        const defaultImg = btn.querySelector(".default-img");
         activeImg.style.display = "none";
         defaultImg.style.display = "block";
       });
-      b.classList.add('active');
-      const activeImg = b.querySelector('.active-image');
-      const defaultImg = b.querySelector('.default-img');
+      b.classList.add("active");
+      const activeImg = b.querySelector(".active-image");
+      const defaultImg = b.querySelector(".default-img");
       activeImg.style.display = "block";
       defaultImg.style.display = "none";
     });
-    const targets = document.querySelectorAll('[data-target]');
-    const content = document.querySelectorAll('[data-content]');
-    targets.forEach(target => {
-      target.addEventListener('click', function () {
-        content.forEach(c => {
-          c.classList.remove("activo")
-        })
-        const t = document.querySelector(target.dataset.target)
-        t.classList.add("activo")
+    const targets = document.querySelectorAll("[data-target]");
+    const content = document.querySelectorAll("[data-content]");
+    targets.forEach((target) => {
+      target.addEventListener("click", function () {
+        content.forEach((c) => {
+          c.classList.remove("activo");
+        });
+        const t = document.querySelector(target.dataset.target);
+        t.classList.add("activo");
       });
     });
   });
@@ -257,27 +249,26 @@ function clearTabsContent() {
   const tabBox2 = document.querySelector(".tab_api2");
 
   if (tabBox1) {
-    tabBox1.innerHTML = '';
+    tabBox1.innerHTML = "";
   }
 
   if (tabBox2) {
-    tabBox2.innerHTML = '';
+    tabBox2.innerHTML = "";
   }
 
-  
-  const buttons_tab = document.querySelectorAll('.tabButton');
-  buttons_tab.forEach(b => {
-    b.classList.remove('active');
-    const activeImg = b.querySelector('.active-image');
-    const defaultImg = b.querySelector('.default-img');
+  const buttons_tab = document.querySelectorAll(".tabButton");
+  buttons_tab.forEach((b) => {
+    b.classList.remove("active");
+    const activeImg = b.querySelector(".active-image");
+    const defaultImg = b.querySelector(".default-img");
     activeImg.style.display = "none";
     defaultImg.style.display = "block";
   });
-  const firstTabButton = document.querySelector('.tabButton');
+  const firstTabButton = document.querySelector(".tabButton");
   if (firstTabButton) {
-    firstTabButton.classList.add('active');
-    const activeImg = firstTabButton.querySelector('.active-image');
-    const defaultImg = firstTabButton.querySelector('.default-img');
+    firstTabButton.classList.add("active");
+    const activeImg = firstTabButton.querySelector(".active-image");
+    const defaultImg = firstTabButton.querySelector(".default-img");
     activeImg.style.display = "block";
     defaultImg.style.display = "none";
   }
@@ -293,9 +284,9 @@ function createSaveButton(parentElement) {
   saveButton.appendChild(icon);
 
   saveButton.addEventListener("click", () => {
-    const container = document.getElementById('save_container');
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
+    const container = document.getElementById("save_container");
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
     document.body.appendChild(overlay);
     container.style.display = "block";
     let div = `
@@ -312,12 +303,11 @@ function createSaveButton(parentElement) {
     console.log("Save button clicked");
     // You can add a sweet alert or any other functionality here
 
-    overlay.addEventListener('click', () => {
+    overlay.addEventListener("click", () => {
       container.style.display = "none";
       overlay.remove();
     });
   });
-
 
   parentElement.appendChild(saveButton);
 }
@@ -326,21 +316,21 @@ function createSaveButton(parentElement) {
 function searchYouTube(searchTerm) {
   const youtubeApi = "http://localhost:3000/videos/youtube?q=" + searchTerm;
   fetch(youtubeApi, {
-    method: 'GET',
-    credentials: 'include',
+    method: "GET",
+    credentials: "include",
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.status}`);
       }
       return response.json();
     })
-    .then(responseData => {
+    .then((responseData) => {
       const tabBox1 = document.querySelector(".tab_api1");
-      tabBox1.innerHTML = '';
-      const videoContainer = document.createElement('div');
-      videoContainer.classList.add('video_container');
-      responseData.forEach(channel => {
+      tabBox1.innerHTML = "";
+      const videoContainer = document.createElement("div");
+      videoContainer.classList.add("video_container");
+      responseData.forEach((channel) => {
         const channelName = channel.channelId;
         let nombreCanal;
 
@@ -350,12 +340,12 @@ function searchYouTube(searchTerm) {
           nombreCanal = "Khan Academy";
         }
 
-        channel.videos.forEach(video => {
+        channel.videos.forEach((video) => {
           const videoTitle = video.title;
           const videoThumbnail = video.thumbnail;
           const videoUrl = video.videoLink;
-          const resultElement = document.createElement('div');
-          resultElement.classList.add('video_card');
+          const resultElement = document.createElement("div");
+          resultElement.classList.add("video_card");
           resultElement.innerHTML = `
           <div class="video_content">
           <img class="video_img" src="${videoThumbnail}" alt="${videoTitle}">
@@ -366,13 +356,13 @@ function searchYouTube(searchTerm) {
           createSaveButton(resultElement);
           videoContainer.appendChild(resultElement);
           tabBox1.appendChild(videoContainer);
-        })
+        });
       });
       const api1Btn = document.getElementById("api1_btn");
       api1Btn.appendChild(tabBox1);
     })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
+    .catch((error) => {
+      console.error("Error en la solicitud:", error);
     });
 }
 
@@ -385,27 +375,28 @@ function searchGoogleAcademics(searchTerm) {
     while ((match = regex.exec(title)) !== null) {
       matches.push(match[0]);
     }
-    const cleanedTitle = title.replace(/\[(.*?)\]/g, '').trim();
-    const modifiedTitle = cleanedTitle + ' ' + matches.join(' ');
+    const cleanedTitle = title.replace(/\[(.*?)\]/g, "").trim();
+    const modifiedTitle = cleanedTitle + " " + matches.join(" ");
     return modifiedTitle;
   }
 
-  const googleAcademicsApi = "http://localhost:3000/search/scholar?q=" + searchTerm;
+  const googleAcademicsApi =
+    "http://localhost:3000/search/scholar?q=" + searchTerm;
   fetch(googleAcademicsApi, {
-    method: 'GET',
-    credentials: 'include',
+    method: "GET",
+    credentials: "include",
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.status}`);
       }
       return response.json();
     })
-    .then(responseData => {
+    .then((responseData) => {
       const tabBox2 = document.querySelector(".tab_api2");
-      tabBox2.innerHTML = '';
+      tabBox2.innerHTML = "";
       if (responseData.results !== "" && responseData.results !== undefined) {
-        responseData.results.forEach(result => {
+        responseData.results.forEach((result) => {
           const card = document.createElement("div");
           card.classList.add("card");
           const cardContent = document.createElement("div");
@@ -424,7 +415,7 @@ function searchGoogleAcademics(searchTerm) {
 
           cardContent.appendChild(link);
           cardContent.appendChild(snippet);
-          createSaveButton(cardContent)
+          createSaveButton(cardContent);
 
           card.appendChild(cardContent);
 
@@ -434,14 +425,14 @@ function searchGoogleAcademics(searchTerm) {
       const api2Btn = document.getElementById("api2_btn");
       api2Btn.appendChild(tabBox2);
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error en la búsqueda: ", error);
     });
 }
 
 //BORRAR BUSQUEDA
 function clearSearchResults() {
-  const searchHtml = document.getElementById('search_result_section');
+  const searchHtml = document.getElementById("search_result_section");
   if (searchHtml) {
     searchHtml.innerHTML = ` <div id="capture-area">
                 <div id="definition_card" style="display:none">
@@ -489,48 +480,47 @@ function clearSearchResults() {
   search();
 }
 
-
-
-document.getElementById('tema').addEventListener('keydown', function (event) {
-  if (event.key === 'Backspace' && this.value === '') {
+document.getElementById("tema").addEventListener("keydown", function (event) {
+  if (event.key === "Backspace" && this.value === "") {
     clearSearchResults();
   }
 });
 
-
-
 //MICROPHONE
 const compatibleBrowser = () => {
-  if (navigator.userAgent.indexOf("Chrome") !== -1 || navigator.userAgent.indexOf("Edge") !== -1 || navigator.userAgent.indexOf("Safari") !== -1) {
+  if (
+    navigator.userAgent.indexOf("Chrome") !== -1 ||
+    navigator.userAgent.indexOf("Edge") !== -1 ||
+    navigator.userAgent.indexOf("Safari") !== -1
+  ) {
     return true;
   }
   console.log("el navegador no es compatible con el reconocimiento de voz");
   return false;
-}
+};
 
 if (compatibleBrowser()) {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+  const recognition = new (window.SpeechRecognition ||
+    window.webkitSpeechRecognition ||
+    window.mozSpeechRecognition ||
+    window.msSpeechRecognition)();
   recognition.lang = "es-US";
 
-  const microphoneIcons = document.querySelectorAll('.mic_btn');
-  microphoneIcons.forEach(microphoneIcon => {
-    microphoneIcon.addEventListener('click', () => {
+  const microphoneIcons = document.querySelectorAll(".mic_btn");
+  microphoneIcons.forEach((microphoneIcon) => {
+    microphoneIcon.addEventListener("click", () => {
       recognition.start();
     });
   });
 
-  recognition.onresult = resultado => { manejarResultado(resultado) };
+  recognition.onresult = (resultado) => {
+    manejarResultado(resultado);
+  };
 }
 
-const manejarResultado = resultado => {
+const manejarResultado = (resultado) => {
   const recognizedText = resultado.results[0][0].transcript;
   console.log("Recognized Text:", recognizedText);
-  const inputBuscador = document.getElementById('tema');
+  const inputBuscador = document.getElementById("tema");
   inputBuscador.value = recognizedText;
-}
-
-
-
-
-
-
+};
