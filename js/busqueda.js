@@ -17,8 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("buttonAdd").addEventListener("click", performSearch);
   //BÚSQUEDA CON IA
   function performSearch() {
+  
     const topic = document.getElementById("tema").value;
-
+    console.log(topic);
     if (topic === "") {
       return;
     }
@@ -41,9 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     fetchDefinitionAndSuggestions(data, topic);
+    
   }
 
-  //descarga definition card
+  //DESCARGAR TARJETA DE DEFINICIÓN
   function captureAndDownloadScreenshot() {
     const targetElement = document.getElementById("capture-area");
     const topicInput = document.getElementById("tema");
@@ -77,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const PROJECT_ID = "intrepid-period-401518";
     const MODEL_ID = "text-bison";
     const ACCESS_TOKEN =
-      "ya29.a0AfB_byAvzOmDPnRA0A97SZLDQpuLnlb_5JjowTFv86zO-3_nvHwrg4dbpiOOJ_saZDJdyX6ERTcFxG3YtT-CY48x_1Nqi9oEDdjpyv2UTyHJY8kBm2DgzTvc2JdjnbrXssabJ2JuwnW7oxeHO7gCHHN6PGC7qXOO3D4nxJZyacyYDId-lUQ4pgvqyAXpmzVyp2usR3z_CcWz2u3-B5yuSdrFSFK4vLXlPOBSCcHl_Ksg9eIu93VCVfEjGVmWVR9t4BhasGO4DEacQQeiLN6ZmEPf6jURd8eAXQwTDSYpr0tTNVeNzvPsM5HMZKMnUN_F3zuJSbloE33KXr73sBu2H0zwjMej_HkTgYTpuN74QTAknd_2AY-f6Di_nTZ19zS_Jois7Xq2lnasz-ZphhhxXNFHu45pPnQNaCgYKATgSARISFQHGX2Mi7E7ookVpRpdK-lpIicdt9w0423";
+      "ya29.a0AfB_byCxnTiMoVPflsDg1fMaFflcUKrOEi5k9Joq0kNPXQR5iui1KsnWTfC534DU5vkKPefBHQ_iocXxWn9TZWt4QnDKWyiKhMk2AGfo5Bc-M1zis0N-L1uly4zdk7ChmNrSNRzyudfbodKtqp7Uwrd_UBv7ajXPN3NP9PV_9r9g1N2pd4TflEKmUv-mMb7RP6cega8VOxWx36qMbtpIBDbuhDZTrCKMWfPQNSKAxqGIIIqPqxeiACPiSyuwT_dj7QaUVBNXMGeG0zII89hAr4P1B49ZnCPcHXOVJbjU7St9EPiKz1WZtv02if5q4830r6FhCKRy89QZo7oV32kkyH4rfUHTpcAVrpsww-0lK5yZcBG0IQdP_f53g79nd_dEwCVyyFffntnCUdrQlDYU6i0P4VNHRNmOZwaCgYKAW8SARISFQHGX2MiRqM1o4a9xeaRxy7dg8ITYg0425";
 
     const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
@@ -99,12 +101,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let indice = respuestaSaltos.indexOf("Sugerencias de ");
 
+        if (  definitionCard.innerHTML !== "" && definitionCard.style.display === "none") {
+          definitionCard.style.display = "block";
+        }
+
+        if (suggestionCard.innerHTML !== "" && suggestionCard.style.display === "none") {
+          suggestionCard.style.display = "block";
+        } 
+
+        
         if (indice !== -1) {
           searchAvatar.style.display = "none";
           searchGreeting.style.display = "none";
           searchContainer.style.backgroundColor = "#fff";
-          definitionCard.style.display = "block";
-          suggestionCard.style.display = "block";
+        
           microphone.style.display = "none";
           blackMicrophone.style.display = "block";
 
@@ -117,7 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
           titulo.textContent = "Sugerencias de búsqueda";
           suggestionCard.appendChild(titulo);
 
-          // busqueda.js
           parte2.forEach((respuestaSalto, index) => {
             if (index !== 0 && respuestaSalto !== "") {
               const suggestionContainer = document.createElement("div");
@@ -138,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
               copyButton.appendChild(icon);
 
-              // Attach event listener to each copy button
+          
               copyButton.addEventListener("click", () => {
                 const dataIndex = copyButton.getAttribute("data-index");
                 const textToCopy = document.querySelector(
@@ -166,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
           document.getElementById("definicion").innerHTML =
             `<h3 id="card_title">${topic.toUpperCase()}</h3>` +
             parte1 +
-            `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=50><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button></div>`;
+            `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=40><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button></div>`;
 
           document
             .getElementById("download_btn")
@@ -179,7 +188,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//BÚSQUEDA
+//BORRAR CONTENIDO DE TARJETAS DE DEFINICIÓN Y SUGERENCIAS
+
+function resetDefinitionAndSuggestionCards() {
+  definitionCard.innerHTML = "";
+  suggestionCard.innerHTML = "";
+  definitionCard.style.display = "none";
+  suggestionCard.style.display = "none";
+}
+
+//BÚSQUEDA CON APIS
 
 const searchButton = document.querySelector(".search_btn");
 const searchInput = document.querySelector(".busqueda");
@@ -190,6 +208,7 @@ searchButton.addEventListener("click", search);
 function search() {
   const inputBuscador = searchInput.value.toLowerCase();
   const searchTerm = inputBuscador.replace(/ /g, "+");
+  console.log(searchTerm);
   if (searchTerm != "") {
     clearTabsContent();
     createTabButtons();
@@ -245,8 +264,8 @@ function createTabButtons() {
 
 //BORRAR TABS
 function clearTabsContent() {
-  const tabBox1 = document.querySelector(".tab_api1");
-  const tabBox2 = document.querySelector(".tab_api2");
+  const tabBox1 = document.querySelector("#api1_btn");
+  const tabBox2 = document.querySelector("#api2_btn");
 
   if (tabBox1) {
     tabBox1.innerHTML = "";
@@ -264,14 +283,9 @@ function clearTabsContent() {
     activeImg.style.display = "none";
     defaultImg.style.display = "block";
   });
-  const firstTabButton = document.querySelector(".tabButton");
-  if (firstTabButton) {
-    firstTabButton.classList.add("active");
-    const activeImg = firstTabButton.querySelector(".active-image");
-    const defaultImg = firstTabButton.querySelector(".default-img");
-    activeImg.style.display = "block";
-    defaultImg.style.display = "none";
-  }
+
+  // Call createTabButtons after clearing
+  createTabButtons();
 }
 
 //BOTÓN DE GUARDADO
@@ -301,7 +315,7 @@ function createSaveButton(parentElement) {
     container.innerHTML = div;
 
     console.log("Save button clicked");
-    // You can add a sweet alert or any other functionality here
+   
 
     overlay.addEventListener("click", () => {
       container.style.display = "none";
@@ -326,7 +340,7 @@ function searchYouTube(searchTerm) {
       return response.json();
     })
     .then((responseData) => {
-      const tabBox1 = document.querySelector(".tab_api1");
+      const tabBox1 = document.querySelector("#videos");
       tabBox1.innerHTML = "";
       const videoContainer = document.createElement("div");
       videoContainer.classList.add("video_container");
@@ -393,7 +407,7 @@ function searchGoogleAcademics(searchTerm) {
       return response.json();
     })
     .then((responseData) => {
-      const tabBox2 = document.querySelector(".tab_api2");
+      const tabBox2 = document.querySelector("#articles");
       tabBox2.innerHTML = "";
       if (responseData.results !== "" && responseData.results !== undefined) {
         responseData.results.forEach((result) => {
@@ -404,6 +418,12 @@ function searchGoogleAcademics(searchTerm) {
           const modifiedTitle = rearrangeTitle(result.title);
           const title = document.createElement("h2");
           title.innerText = modifiedTitle;
+          title.classList.add("art-title");
+          const icon = document.createElement("img");
+          icon.src = "../assets/img/icons/ir_icono.svg";
+          icon.alt = "Icono ir";
+          icon.classList.add("go-icon");
+          title.appendChild(icon);
           const link = document.createElement("a");
           link.href = result.link;
           link.target = "_blank";
@@ -435,26 +455,29 @@ function clearSearchResults() {
   const searchHtml = document.getElementById("search_result_section");
   if (searchHtml) {
     searchHtml.innerHTML = ` <div id="capture-area">
-                <div id="definition_card" style="display:none">
+                <div id="definition_card" class="definition-card" >
                     <p id="definicion"></p>
                 </div>
             </div>
-            <div id="suggestion_card" style="display:none">
+            <div id="suggestion_card" class="suggestion-card" >
                 
             </div>
-            <div id="result_section" style="display:none">
+            <div id="result_section">
                 <div id="tab_btn"></div>
                 <div class="tab_api1 activo" id="videos" data-content></div>
                 <div class="tab_api2" id="articles" data-content></div>
-                <div id="save_container"></div>
+                <div id="save_container" style="display:none"></div>
             </div>`;
   }
-  if (definitionCard) {
+  if ( definitionCard.innerHTML === "") {
+   
     definitionCard.style.display = "none";
   }
-  if (suggestionCard) {
+
+  if (suggestionCard.innerHTML === "") {
     suggestionCard.style.display = "none";
   }
+   
   if (saveContainer) {
     saveContainer.style.display = "none";
   }
@@ -475,9 +498,8 @@ function clearSearchResults() {
   }
   if (searchInput) {
     searchInput.value = "";
-  }
-  clearTabsContent();
-  search();
+  } 
+  resetDefinitionAndSuggestionCards();
 }
 
 document.getElementById("tema").addEventListener("keydown", function (event) {

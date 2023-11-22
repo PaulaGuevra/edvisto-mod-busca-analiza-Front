@@ -92,7 +92,7 @@ main {
 .avatar {
     height: 26.9375rem;
     position: absolute;
-    left: 79%;
+    left: 63%;
 
 }
 
@@ -102,6 +102,11 @@ main {
     flex-direction: column;
     align-items: center;
 }
+
+.definition-card, .suggestion-card{
+    display: none !important;
+}
+
 #capture-area{
     width:55.9rem;
     height: 30rem;
@@ -125,7 +130,7 @@ main {
     color: var(--white);
     text-align: center;
     text-wrap: balance;
-    margin: 100px 50px;
+    margin: 70px 50px;
     width: 37.5rem;
     float: right;
 }
@@ -144,7 +149,7 @@ main {
     border: none;
     float: right;
     position: relative;
-    margin-top: 16%;
+    margin-top: 10%;
     cursor: pointer;
 }
 
@@ -237,6 +242,7 @@ main {
 }
 
 #tab_btn {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -346,7 +352,6 @@ main {
 
 .video_card {
     height: 41.5625rem;
-    ;
     width: 57.5rem;
     display: flex;
     flex-direction: column;
@@ -431,8 +436,26 @@ main {
 
 .card-content a {
     text-decoration: none;
-    color: #6100FFB2;
+    color: var(--Tech);
 
+}
+
+.art-title{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0;
+}
+
+.art-title:hover{
+    color: var(--violet);
+    text-decoration: underline;
+
+}
+
+.go-icon{
+    height:30px;
+    margin-left: 10px;
 }
 
 .card-title {
@@ -465,6 +488,7 @@ main {
 
 #save_container {
     position: absolute;
+    margin: auto;
     background-color: #FFFFFF;
     width: 28.125rem;
     height: 18.75rem;
