@@ -1,0 +1,74 @@
+:root{
+    --violet: #6100FF;
+    --tech: #0B0033;
+    --orange: #FF7000;
+    --caribe70: hsla(183, 75%, 44%, 0.7);
+    --white80: hsla(0, 0%, 100%, 0.8);
+    --caribe: hsla(183, 75%, 44%, 1);
+    --caribe30:  hsla(183, 75%, 44%, 0.3);
+}
+.botonesNavegacion{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.botonNavegacion{
+    
+    width: 100%;
+    block-size: 44px;
+    border: none;
+    border-radius: 28px;
+    background:none;
+    cursor: pointer;
+    font-family: 'Urbanist', sans-serif;
+    color: hsla(253, 100%, 10%, 0.8);
+    font-size: 20px;
+    font-weight: 500;   
+}
+
+h2 {
+    font-size: 24px;
+    font-weight:500;
+    color: var(--tech);
+    
+}   
+nav {
+    background: var(--caribe30);
+    block-size: 143.18px;
+    display: flex;
+    justify-content: space-between; 
+    overflow: hidden;
+    align-items: center;
+    padding: 0 72.9px;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+#botonFeed{
+    max-width: 144px;
+}
+#botonBusquedaAnalisis{
+    max-width: 281px;
+}
+#botonCrearColaborar{
+    max-width: 262px;
+}
+.profile{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 222px;
+    width: 100%;
+}
+body {
+    font-family: 'Urbanist', sans-serif;
+    text-align: center;   
+    margin:0;      
+ }
+.activo {
+    color:hsla(253, 100%, 10%, 1);
+    background: hsla(0, 0%, 100%, 0.8);
+    box-shadow: 4px 4px 3px 0px hsla(263, 100%, 21%, 0.29);
+    font-weight: 800;
+}

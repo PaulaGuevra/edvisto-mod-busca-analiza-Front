@@ -1,6 +1,5 @@
 //CONSTANTES
-const definitionCard = document.getElementById("definition_card");
-const suggestionCard = document.getElementById("suggestion_card");
+
 const saveContainer = document.getElementById("save_container");
 const searchAvatar = document.getElementById("search_avtr");
 const searchGreeting = document.getElementById("search_title");
@@ -9,16 +8,16 @@ const blackMicrophone = document.getElementById("alter-micro");
 const microphone = document.getElementById("default-micro");
 
 document.addEventListener("DOMContentLoaded", function () {
-  definitionCard.style.display = "none";
-  suggestionCard.style.display = "none";
+
   saveContainer.style.display = "none";
   blackMicrophone.style.display = "none";
 
   document.getElementById("buttonAdd").addEventListener("click", performSearch);
   //BÚSQUEDA CON IA
   function performSearch() {
-  
+
     const topic = document.getElementById("tema").value;
+
     console.log(topic);
     if (topic === "") {
       return;
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     fetchDefinitionAndSuggestions(data, topic);
-    
+
   }
 
   //DESCARGAR TARJETA DE DEFINICIÓN
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const PROJECT_ID = "intrepid-period-401518";
     const MODEL_ID = "text-bison";
     const ACCESS_TOKEN =
-      "ya29.a0AfB_byCxnTiMoVPflsDg1fMaFflcUKrOEi5k9Joq0kNPXQR5iui1KsnWTfC534DU5vkKPefBHQ_iocXxWn9TZWt4QnDKWyiKhMk2AGfo5Bc-M1zis0N-L1uly4zdk7ChmNrSNRzyudfbodKtqp7Uwrd_UBv7ajXPN3NP9PV_9r9g1N2pd4TflEKmUv-mMb7RP6cega8VOxWx36qMbtpIBDbuhDZTrCKMWfPQNSKAxqGIIIqPqxeiACPiSyuwT_dj7QaUVBNXMGeG0zII89hAr4P1B49ZnCPcHXOVJbjU7St9EPiKz1WZtv02if5q4830r6FhCKRy89QZo7oV32kkyH4rfUHTpcAVrpsww-0lK5yZcBG0IQdP_f53g79nd_dEwCVyyFffntnCUdrQlDYU6i0P4VNHRNmOZwaCgYKAW8SARISFQHGX2MiRqM1o4a9xeaRxy7dg8ITYg0425";
+      "ya29.a0AfB_byBtacH-S_1oulykRAh7Pa2xAGzjHOBAIgwXG82NddAkZsjXH9zMFsGdGjxxJL-o5C3AydM3lcd9SoDFUmasEewH2EG-MHkPDr64SVf948PR6JXV5K7jiQWrPHVn1o4_qCJ4fWZ_WrYYVFm9EujmqFz8xT3OS2db8UT0YR2-B_fzdYdGayz5qxhS9FiPoU1VP_xtFazuVI6tUTugHWxNmOzshm4U_AZf3nZnQYvMoIltiqPps5dLYXcPDIRDMtJhkroBO3J12gfbWJcBdyqXEBc2oe0hCYLjFj7UnE0kbTc9eQlX0U7iv7KLCpy8Erpv60TTFHON764h6iKBKkU4ShEVbaoGFOo5RRqXn-LcNdMLAqsRlx_NHv2JPceHUcwk4wMVdjBsvla3Lc2mCh2Je3UEIHhodgaCgYKATYSARISFQHGX2MiUS1ynvYoumaxAHcZ4j885w0425";
 
     const url = `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/us-central1/publishers/google/models/${MODEL_ID}:predict`;
 
@@ -96,32 +95,37 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((responseData) => {
         let respuesta = responseData.predictions[0].content;
-        document.getElementById("definicion").innerHTML = respuesta;
+
+        const definitionCard = document.createElement("div");
+        definitionCard.id = "definition_card";
+        const definicion = document.createElement("p");
+        definicion.id = "definicion";
+        definicion.innerHTML = respuesta;
+        definitionCard.appendChild(definicion);
+        const cardContainer = document.getElementById('capture-area');
+        cardContainer.appendChild(definitionCard);
         let respuestaSaltos = respuesta;
 
         let indice = respuestaSaltos.indexOf("Sugerencias de ");
 
-        if (  definitionCard.innerHTML !== "" && definitionCard.style.display === "none") {
-          definitionCard.style.display = "block";
-        }
 
-        if (suggestionCard.innerHTML !== "" && suggestionCard.style.display === "none") {
-          suggestionCard.style.display = "block";
-        } 
-
-        
         if (indice !== -1) {
           searchAvatar.style.display = "none";
           searchGreeting.style.display = "none";
           searchContainer.style.backgroundColor = "#fff";
-        
+
           microphone.style.display = "none";
           blackMicrophone.style.display = "block";
 
           const parte1 = respuestaSaltos.substring(0, indice).trim();
-          const parte2 = respuestaSaltos.substring(indice).trim().split("*");
+          const parte2 = respuestaSaltos.substring(indice).trim().split(/(?:\n|\*)/).map(item => item.trim()).filter(Boolean);
 
-          suggestionCard.innerHTML = "";
+          const suggestionSection = document.getElementById("suggestion_area");
+          const suggestionCard = document.createElement("div");
+          suggestionCard.id = "suggestion_card";
+          const suggestionContainer = document.createElement("div");
+          suggestionContainer.classList.add("suggestion-container");
+
           const titulo = document.createElement("h2");
           titulo.className = "suggestion_title";
           titulo.textContent = "Sugerencias de búsqueda";
@@ -129,8 +133,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
           parte2.forEach((respuestaSalto, index) => {
             if (index !== 0 && respuestaSalto !== "") {
-              const suggestionContainer = document.createElement("div");
-              suggestionContainer.classList.add("suggestion-container");
+              const suggestionItem = document.createElement("div");
+              suggestionItem.classList.add("suggestion-item");
 
               const suggestion = document.createElement("span");
               suggestion.className = "text_to_copy";
@@ -147,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
               copyButton.appendChild(icon);
 
-          
+
               copyButton.addEventListener("click", () => {
                 const dataIndex = copyButton.getAttribute("data-index");
                 const textToCopy = document.querySelector(
@@ -166,16 +170,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
               });
 
-              suggestionContainer.appendChild(suggestion);
-              suggestionContainer.appendChild(copyButton);
+              suggestionItem.appendChild(suggestion);
+              suggestionItem.appendChild(copyButton);
+              suggestionContainer.appendChild(suggestionItem);
               suggestionCard.appendChild(suggestionContainer);
+
             }
           });
-
+          suggestionSection.appendChild(suggestionCard);
           document.getElementById("definicion").innerHTML =
             `<h3 id="card_title">${topic.toUpperCase()}</h3>` +
             parte1 +
-            `<div><img src="../assets/img/icons/definition_card_logo.svg" alt="logo EdVisto" class="logo_card" height=40><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button></div>`;
+            `<div><img src="../assets/img/icons/logo_definition_card.svg" alt="logo EdVisto" class="logo_card" height=60><button type="button" id="download_btn"><img src="../assets/img/icons/download.svg" class="download_icon"></button></div>`;
+
+
 
           document
             .getElementById("download_btn")
@@ -188,14 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//BORRAR CONTENIDO DE TARJETAS DE DEFINICIÓN Y SUGERENCIAS
 
-function resetDefinitionAndSuggestionCards() {
-  definitionCard.innerHTML = "";
-  suggestionCard.innerHTML = "";
-  definitionCard.style.display = "none";
-  suggestionCard.style.display = "none";
-}
 
 //BÚSQUEDA CON APIS
 
@@ -284,12 +285,11 @@ function clearTabsContent() {
     defaultImg.style.display = "block";
   });
 
-  // Call createTabButtons after clearing
   createTabButtons();
 }
 
-//BOTÓN DE GUARDADO
-function createSaveButton(parentElement) {
+// BOTÓN DE GUARDADO
+function createSaveButton(parentElement, url) {
   const saveButton = document.createElement("button");
   saveButton.classList.add("save-button");
   const icon = document.createElement("img");
@@ -298,33 +298,249 @@ function createSaveButton(parentElement) {
   saveButton.appendChild(icon);
 
   saveButton.addEventListener("click", () => {
-    const container = document.getElementById("save_container");
-    const overlay = document.createElement("div");
-    overlay.className = "overlay";
-    document.body.appendChild(overlay);
-    container.style.display = "block";
-    let div = `
+    fetchFolders((folders) => {
+      const container = document.getElementById("save_container");
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
+      document.body.appendChild(overlay);
+      container.style.display = "block";
+      
+      let div = `
         <div class="save_div">
-            <h3>Guardar en Biblioteca del Explorador</h3>
-            <ul>
-                <li><button type="button" id="c1"><img src="../assets/img/icons/white_save_icon.svg" alt="icono guardar"> Carpeta 1 </button> </li>
-                <li><button type="button" id="c2"><img src="../assets/img/icons/white_save_icon.svg" alt="icono guardar">  Carpeta 2 </button> </li>
-                <li><button type="button" id="new_folder"><img src="../assets/img/icons/newproject.svg" alt="icono nueva carpetar"> Nuevo </button> </li>
-            </ul>
+          <h3>Guardar en Biblioteca del Explorador</h3>
+          <ul id="folder_list">
+            ${folders}
+            <li><button type="button" id="new_folder"><img src="../assets/img/icons/newproject.svg" alt="icono nueva carpeta"> Nuevo </button></li>
+          </ul>
         </div>`;
-    container.innerHTML = div;
+      container.innerHTML = div;
 
-    console.log("Save button clicked");
-   
+      overlay.addEventListener("click", () => {
+        container.style.display = "none";
+        overlay.remove();
+      });
 
-    overlay.addEventListener("click", () => {
-      container.style.display = "none";
-      overlay.remove();
+
+      const folderButtons = document.querySelectorAll(".folder");
+      folderButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+
+          const selectedFolderName = button.textContent.trim();
+
+          saveItemToFolder(selectedFolderName, url);
+
+          // Cerrar el popup cuando se clickea la carpeta
+          container.style.display = "none";
+          overlay.remove();
+        });
+      });
+      const newFolderBtn = document.getElementById('new_folder');
+      newFolderBtn.addEventListener("click", showPopUp);
+
     });
   });
 
   parentElement.appendChild(saveButton);
 }
+
+/* //OBTENER USUARIO AUTENTICADO
+async function authenticateUser() {
+  try {
+
+    const response = await fetch('http://localhost:3000/login', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la autenticación');
+    }
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error('Error en la autenticación', error.message);
+    return null;
+  }
+}
+
+//FUNCIÓN PARA OBTENER EL USUARIO
+async function getUserInfo() {
+  try {
+    const user = await authenticateUser();
+    return user ? user.email : null;
+  } catch (error) {
+    console.error('Error en la autenticación', error.message);
+    return null;
+  }
+}
+ */
+
+// TRAER CARPETAS
+
+//cuando haya autenticación de usuario se cambia el user@gmail.com por essto:
+//const usuarioLogueado=  await getUserInfo(); y se pone ${usuarioLogueado} en la urlFolders
+    
+
+const urlFolders = 'http://127.0.0.1:3000/folder/find?email=user@gmail.com';
+
+function fetchFolders(callback) {
+  fetch(urlFolders, {
+    method: "GET",
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const folderList = data.folders.map((folder) => `
+        <li>
+          <button type="button" class="folder">
+            <img src="../assets/img/icons/white_save_icon.svg" alt="icono guardar">
+            ${folder.folderName}
+          </button>
+        </li>`
+      ).join("");
+
+      if (callback) {
+        callback(folderList);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  document.querySelectorAll('.folder').forEach((folderButton) => {
+    folderButton.addEventListener('click', () => {
+      const confirmacionGuardadoDialog = document.getElementById('ConfirmacionGuardado');
+      confirmacionGuardadoDialog.show();
+    });
+  });
+}
+
+
+
+//GUARDAR ITEM EN UNA CARPETA
+const urlSave = 'http://127.0.0.1:3000/add/link';
+
+async function saveItemToFolder(selectedFolderName, url) {
+  try {
+    /* const userEmail = await getUserInfo();
+    if (!userEmail) {
+      console.log('Usuario no autenticado');
+      return;
+    } */
+
+    const userEmail = 'user@gmail.com';
+
+    const saveData = {
+      email: userEmail,
+      folderName: selectedFolderName,
+      link: url,
+    };
+
+    const response = await fetch(urlSave, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(saveData),
+      credentials: "include",
+    })
+    if (!response.ok) {
+      throw new Error(`Error en la solicitud: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log("Item saved successfully:", data);
+    const saveConfirmation = document.createElement("div");
+    saveConfirmation.id = ('confirmationContainer')
+    saveConfirmation.innerHTML = `<dialog id="confirmacionGuardado">
+      
+        <div class="bodyConfirmacionGuardado">
+            <h3 id="h3ConfirmacionGuardado">¡Tu archivo se ha <strong>guardado</strong> con éxito!</h3>
+            <div class="greenCheck">
+                <img id="greenCheck" src="./assets/img/green-check.svg"
+                    alt="Icono de aprobación de creacion de carpeta" width="63px" height="63px">
+            </div>
+        </div>
+    </dialog>`;
+    document.body.appendChild(saveConfirmation);
+
+    const confirmacionGuardadoDialog = document.getElementById('confirmacionGuardado');
+    confirmacionGuardadoDialog.showModal();
+
+    const duration = 2000;
+    setTimeout(()=>{
+      confirmacionGuardadoDialog.close();
+    }, duration);
+  
+
+  } catch (error) {
+    console.error("Error al guardar el elemento:", error);
+
+  }
+
+}
+
+
+
+
+//FORMULARIO PARA CREAR NUEVA CARPETA 
+function showPopUp() {
+  const newFolderPopUp = document.createElement('dialog');
+  newFolderPopUp.id = 'Form1'
+  const newFolderForm = `
+<form method="dialog" action="#" class="Formulario" novalidate id="Form1">
+    <h3 id="NewFolder"><img id="IconNewFolder" src="./assets/img/icon-new-folder.svg"
+            alt="Icono Nueva imagen" width="22px" height="22px">Nueva Carpeta</h3>
+    <div id="TextForm">
+        <div id="FirstPart">
+            <div>
+                <p><img class="Icon" id="IconNameProyect" src="./assets/img/nombre-proyecto.svg"
+                        alt="Icono nombre del proyecto" width="20px" height="20px">Nombre del Proyecto
+                </p>
+                <input id="NombreProyecto" class="InputNewFolder" type="text" required
+                    placeholder="Texto de ejemplo">
+                <div id="PCommunity">
+                    <p><img id="Community" src="./assets/img/community.svg" alt="Icono comunidad"
+                            width="22px" height="13.62px">Comunidad</p>
+                    <select class="InputNewFolder" name="Seleccionar comunidad"
+                        id="SeleccionarComunidad" disabled>
+                        <option value="selecciona">Seleccionar comunidad</option>
+                    </select>
+                </div>
+            </div>
+            <div class="UploadImage">
+                <label for="UploadImageInput">
+                    <img id="Upload-Image" src="./assets/img/upload-image.svg" alt="Subir imagen">
+                </label>
+                <input id="UploadImageInput" type="file" accept="image/png, image/jpeg"
+                    style="display: none;">
+            </div>
+        </div>
+        <p><img class="Icon" id="IconObject" src="./assets/img/object.svg" alt="Icono del objetivo"
+                width="18px" height="18px">Objetivo</p>
+        <input class="InputNewFolder" id="Objetivo" type="text" required
+            placeholder="Texto de ejemplo">
+    </div>
+    <input class="ButtonNewFolder" id="AcceptButton" type="submit" value="Aceptar">
+    <input class="ButtonNewFolder" id="CancelButton" type="button" value="Cancelar">
+</form>`;
+
+  newFolderPopUp.innerHTML = newFolderForm;
+  document.body.appendChild(newFolderPopUp);
+  newFolderPopUp.showModal();
+  const cancelBtn = newFolderPopUp.querySelector('#CancelButton');
+  cancelBtn.addEventListener('click', () => {
+    newFolderPopUp.close();
+  });
+}
+
+
+
 
 //BÚSQUEDA CON YOUTUBE
 function searchYouTube(searchTerm) {
@@ -367,7 +583,7 @@ function searchYouTube(searchTerm) {
           <p>${nombreCanal}<p>
           <div/>
         `;
-          createSaveButton(resultElement);
+          createSaveButton(resultElement, videoUrl);
           videoContainer.appendChild(resultElement);
           tabBox1.appendChild(videoContainer);
         });
@@ -435,7 +651,7 @@ function searchGoogleAcademics(searchTerm) {
 
           cardContent.appendChild(link);
           cardContent.appendChild(snippet);
-          createSaveButton(cardContent);
+          createSaveButton(cardContent, result.link);
 
           card.appendChild(cardContent);
 
@@ -450,17 +666,18 @@ function searchGoogleAcademics(searchTerm) {
     });
 }
 
+
+
+
 //BORRAR BUSQUEDA
 function clearSearchResults() {
   const searchHtml = document.getElementById("search_result_section");
   if (searchHtml) {
     searchHtml.innerHTML = ` <div id="capture-area">
-                <div id="definition_card" class="definition-card" >
-                    <p id="definicion"></p>
-                </div>
-            </div>
-            <div id="suggestion_card" class="suggestion-card" >
                 
+            </div>
+            <div id="suggestion_area">
+              
             </div>
             <div id="result_section">
                 <div id="tab_btn"></div>
@@ -469,15 +686,7 @@ function clearSearchResults() {
                 <div id="save_container" style="display:none"></div>
             </div>`;
   }
-  if ( definitionCard.innerHTML === "") {
-   
-    definitionCard.style.display = "none";
-  }
 
-  if (suggestionCard.innerHTML === "") {
-    suggestionCard.style.display = "none";
-  }
-   
   if (saveContainer) {
     saveContainer.style.display = "none";
   }
@@ -498,15 +707,17 @@ function clearSearchResults() {
   }
   if (searchInput) {
     searchInput.value = "";
-  } 
-  resetDefinitionAndSuggestionCards();
+  }
+
 }
 
 document.getElementById("tema").addEventListener("keydown", function (event) {
-  if (event.key === "Backspace" && this.value === "") {
+  if (event.key === "Backspace" && this.value == "") {
     clearSearchResults();
   }
 });
+
+let searchPerformed = false;
 
 //MICROPHONE
 const compatibleBrowser = () => {

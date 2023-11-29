@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <title>Biblioteca</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <img src="./assets/img/Ed_logo_rectangle 1 (Traced).svg" alt="Logo EdVisto" title="Logo EdVisto"
+                id="logo-edvisto">
+            <section class="profile">
+                <h2 id="modulo">¡Hola, Juan!</h2>
+                <img src="./assets/img/profile.svg" alt="Icono del perfil" aria-label="Icono del perfil"
+                    class="icono-perfil">
+                <img src="./assets/img/arrow-profile.svg" alt="Icono desplegable perfil"
+                    aria-label="Desplegar opciones del perfil" width="24px" height="24px">
+
+            </section>
+        </nav>
+        <section id="botonesmodulo">
+            <div class="botonesmodulo" id="botonesmodulo">
+                <div class="buttonssa">
+                    <button class="button" aria-label="Botón de Búsqueda">
+                        <a class="a2" href="/busqueda.html">Buscar</a>
+                    </button>
+                </div>
+                <div class="buttonssa" id="buttonlibrary">
+                    <button class="button" id="save" aria-label="Botón de Biblioteca">
+                        <a class="a2" href="/biblioteca.html">Biblioteca</a>
+                    </button>
+                </div>
+                <div class="buttonssa">
+                    <button class="button" id="analysis" aria-label="Botón de Análisis">
+                        <a class="a2" href="/camino.html">Camino al aprendizaje</a>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </header>
+    <main>
+        <section id="seccionbiblioteca">
+            <div class="bannerseccionbiblioteca">
+                <div class="bienvenida" id="bienvenida">
+                    <img id="saves" src="./assets/img/save.svg" alt="Imagen de Biblioteca">
+                    <h3>Bienvenido a tu Biblioteca de Explorador</h3>
+                    <p>Aquí podrás encontrar y compartir la información que guardaste para crear tus proyectos</p>
+                </div>
+                <img id="logo" src="./assets/img/perrito_profesor.svg" alt="Avatar EdVisto" width="242px"
+                    height="367px">
+            </div>
+            <div class="carpetasbiblioteca">
+                <div class="carpeta">
+                    <p id="FolderName">Nombre Carpeta</p>
+                    <div class="HoverCarpeta">
+                        <p><img id="Community" src="./assets/img/community-folder.svg" alt="Icono comunidad"
+                                width="22px" height="13.62px">Comunidad</p>
+                        <a href="/nuevacarpeta.html">
+                            <button class="button-go" id="botoncarpeta"
+                                aria-label="Botón de ir a la sección de Búsqueda">¡Vamos!</button>
+                        </a>
+                    </div>
+                </div>
+
+                <button id="CrearNewFolder" class="crearNuevaCarpeta">Crear nueva carpeta</button>
+            </div>
+            <dialog id="Form1">
+                <form method="dialog" action="#" class="Formulario" novalidate>
+                    <h3 id="NewFolder"><img id="IconNewFolder" src="./assets/img/icon-new-folder.svg"
+                            alt="Icono Nueva imagen" width="22px" height="22px">Nueva Carpeta</h3>
+                    <div id="TextForm">
+                        <div id="FirstPart">
+                            <div>
+                                <p><img class="Icon" id="IconNameProyect" src="./assets/img/nombre-proyecto.svg"
+                                        alt="Icono nombre del proyecto" width="20px" height="20px">Nombre del Proyecto
+                                </p>
+                                <input id="NombreProyecto" class="InputNewFolder" type="text" required
+                                    placeholder="Texto de ejemplo">
+                                <div id="PCommunity">
+                                    <p><img id="Community" src="./assets/img/community.svg" alt="Icono comunidad"
+                                            width="22px" height="13.62px">Comunidad</p>
+                                    <select class="InputNewFolder" name="Seleccionar comunidad"
+                                        id="SeleccionarComunidad" disabled>
+                                        <option value="selecciona">Seleccionar comunidad</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="UploadImage">
+                                <label for="UploadImageInput">
+                                    <img id="Upload-Image" src="./assets/img/upload-image.svg" alt="Subir imagen">
+                                </label>
+                                <input id="UploadImageInput" type="file" accept="image/png, image/jpeg"
+                                    style="display: none;">
+                            </div>
+                        </div>
+                        <p><img class="Icon" id="IconObject" src="./assets/img/object.svg" alt="Icono del objetivo"
+                                width="18px" height="18px">Objetivo</p>
+                        <input class="InputNewFolder" id="Objetivo" type="text" required
+                            placeholder="Texto de ejemplo">
+                    </div>
+                    <input class="ButtonNewFolder" id="AcceptButton" type="submit" value="Aceptar">
+                    <input class="ButtonNewFolder" id="CancelButton" type="button" value="Cancelar">
+                </form>
+            </dialog>
+            <dialog id="ConfirmacionCrearCarpeta">
+                <div class="HeaderCloseButton">
+                    <img id="CloseButton" src="./assets/img/close-button.svg" alt="Botón de Cerrar" width="24px"
+                        height="24px">
+                </div>
+                <div class="BodyConfirmacionCrearCarpeta">
+                    <h3 id="H3ConfirmacionCrearCarpeta">¡Tu Carpeta se ha creado con éxito!</h3>
+                    <div class="GreenCheck">
+                        <img id="GreenCheck" src="./assets/img/green-check.svg"
+                            alt="Icono de aprobación de creacion de carpeta" width="63px" height="63px">
+                    </div>
+                    <a class="a1" href="/nuevacarpeta.html">
+                        <button class="button-go" id="botonConfirmacionCarpeta"
+                            aria-label="Botón de ir a carpeta después de haberse creado">
+                            Ir a Carpeta
+                        </button>
+                    </a>
+                </div>
+            </dialog>
+
+        </section>
+    </main>
+    <script src="./js/js.js"></script>
+</body>
+
+</html>
